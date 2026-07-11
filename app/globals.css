@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Brand core */
+  --color-ink:   #201820;
+  --color-black: #000000;
+  --color-paper: #F8F8F8;
+  --color-white: #FFFFFF;
+
+  /* Neutral gray scale */
+  --color-gray-100: #F0F0F0;
+  --color-gray-300: #D0D0D0;
+  --color-gray-400: #B0B0B0;
+  --color-gray-500: #A0A0A0;
+  --color-gray-700: #404040;
+  --color-gray-900: #1A1A1A;
+
+  /* Semantic */
+  --color-bg:         var(--color-paper);
+  --color-fg:         var(--color-ink);
+  --color-bg-inverse: var(--color-black);
+  --color-fg-inverse: var(--color-paper);
+  --color-border:     var(--color-gray-300);
+  --color-muted:      var(--color-gray-700);
+
+  /* Functional (admin/forms only) */
+  --color-focus:   #2D6CDF;
+  --color-success: #1E7E34;
+  --color-danger:  #B3261E;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+  }
+
+  body {
+    font-family: var(--font-inter), system-ui, sans-serif;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-manrope), system-ui, sans-serif;
+    line-height: 1.15;
+  }
+
+  /* Visible focus rings for keyboard nav (WCAG 2.1 AA) */
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+}

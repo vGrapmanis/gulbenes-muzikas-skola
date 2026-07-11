@@ -1,0 +1,27 @@
+{
+  "name": "gulbenes-muzikas-skola",
+  "main": ".open-next/worker.js",
+  // Keep in sync with opennextjs/cloudflare docs
+  "compatibility_date": "2025-03-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "gms-media-prod"
+    }
+  ],
+  "env": {
+    "preview": {
+      "r2_buckets": [
+        {
+          "binding": "MEDIA",
+          "bucket_name": "gms-media-dev"
+        }
+      ]
+    }
+  }
+}

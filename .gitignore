@@ -1,0 +1,26 @@
+# dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# OpenNext / Cloudflare build output
+.open-next/
+
+# env — never commit real values
+.env*.local
+
+# wrangler local state
+.wrangler/
+
+# Supabase local
+supabase/.temp/
+supabase/.branches/
+
+# macOS
+.DS_Store
+
+# build artifacts
+*.tsbuildinfo
+next-env.d.ts
