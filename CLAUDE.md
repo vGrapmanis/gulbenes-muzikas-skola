@@ -69,7 +69,7 @@ Rationale and alternatives live in `docs/architecture.md`.
 
 ## 5. Site sections (8)
 
-1. **Sākumlapa** (Home) — replicate the old home (layout confirmed from the school's
+1. **Home** (`/`) — replicate the old home (layout confirmed from the school's
    screenshot): near-black hero with centered title + piano-key fan graphic + the
    Ojārs Vācietis motto, and subtle decorative gradient edge bars. See `docs/sections.md`.
 2. **Par skolu** (About) — Vēsture (text) + Absolventi (cards per year).

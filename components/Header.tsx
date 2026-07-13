@@ -10,7 +10,6 @@ type NavItem =
   | { label: string; href?: never; children: NavChild[] };
 
 const NAV: NavItem[] = [
-  { label: 'SĀKUMLAPA', href: '/' },
   {
     label: 'PAR SKOLU',
     children: [
@@ -21,13 +20,8 @@ const NAV: NavItem[] = [
   { label: 'JAUNUMI', href: '/jaunumi' },
   { label: 'SASNIEGUMI', href: '/sasniegumi' },
   { label: 'GALERIJA', href: '/galerija' },
-  {
-    label: 'INFORMĀCIJA',
-    children: [
-      { label: 'Uzņemšana', href: '/uznemsana' },
-      { label: 'Dokumenti', href: '/dokumenti' },
-    ],
-  },
+  { label: 'UZŅEMŠANA', href: '/uznemsana' },
+  { label: 'DOKUMENTI', href: '/dokumenti' },
   { label: 'KONTAKTI', href: '/kontakti' },
 ];
 

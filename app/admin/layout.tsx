@@ -5,14 +5,8 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="min-h-screen bg-gray-100 text-ink">
-      {children}
-    </div>
-  );
+// Minimal wrapper — auth gating lives in app/admin/(protected)/layout.tsx
+// so the login page (outside that group) is not blocked.
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  return <div className="font-sans">{children}</div>;
 }

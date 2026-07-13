@@ -23,7 +23,7 @@ deferred with the school's sign-off).
 
 ## Per-section content
 
-### Sākumlapa
+### Home (`/`)
 - [ ] Hero text / motto (the Ojārs Vācietis quote is already known).
 - [x] Layout confirmed (school screenshot) → see `docs/sections.md`.
 

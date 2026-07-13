@@ -33,7 +33,7 @@ export default function HeroSection() {
   return (
     <section
       className="relative min-h-[calc(100vh-4rem)] bg-black flex flex-col items-center justify-center overflow-hidden"
-      aria-label="Sākumlapa"
+      aria-label="Galvenā lapa"
     >
       <EdgeBar side="left" />
       <EdgeBar side="right" />
@@ -55,7 +55,7 @@ export default function HeroSection() {
             height={280}
             priority
             className="w-full h-auto"
-            style={{ mixBlendMode: 'screen', filter: 'invert(1) brightness(2.5) contrast(0.9)' }}
+            //style={{ mixBlendMode: 'screen', filter: 'invert(1) brightness(2.5) contrast(0.9)' }}
           />
         </div>
 

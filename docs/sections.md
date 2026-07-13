@@ -6,15 +6,15 @@ in `docs/schemas.md`; admin flows in `docs/admin.md`.
 
 Navigation order (header), preserving the old site's dropdown style (white,
 uppercase, letter-spaced, on the dark header):
-`SĀKUMLAPA · PAR SKOLU ▾ (Vēsture, Absolventi) · JAUNUMI · SASNIEGUMI · GALERIJA ·
-INFORMĀCIJA ▾ (Uzņemšana, Dokumenti) · KONTAKTI`
+`PAR SKOLU ▾ (Vēsture, Absolventi) · JAUNUMI · SASNIEGUMI · GALERIJA · UZŅEMŠANA · DOKUMENTI · KONTAKTI`
 
-Two dropdowns ("Par skolu", "Informācija") group the sub-pages so the top bar stays
-close to the original. Routes remain flat (`/uznemsana`, `/dokumenti`, etc.).
+Home (`/`) is reached via the logo in the top-left — no separate nav link.
+
+One dropdown ("Par skolu") groups Vēsture and Absolventi. All other sections are direct top-level links. Routes remain flat (`/uznemsana`, `/dokumenti`, etc.).
 
 ---
 
-## 1. Sākumlapa — `/`
+## 1. Home — `/`
 
 Replicate the old home page's look (confirmed from the school's screenshot). One calm,
 centered, single-screen hero on a **near-black** background, top to bottom:
