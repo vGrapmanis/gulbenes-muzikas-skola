@@ -65,6 +65,39 @@ export type Database = {
         }
         Relationships: []
       }
+      graduate_classes: {
+        Row: {
+          id: string
+          title: string
+          image_key: string | null
+          image_alt: string
+          display_order: number
+          published: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          image_key?: string | null
+          image_alt?: string
+          display_order?: number
+          published?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          image_key?: string | null
+          image_alt?: string
+          display_order?: number
+          published?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       documents: {
         Row: {
           category: string | null
@@ -219,6 +252,8 @@ export type Database = {
           id: string
           poster_alt: string
           poster_key: string
+          poster_portrait_alt: string | null
+          poster_portrait_key: string | null
           published: boolean
           published_at: string | null
           slug: string
@@ -232,6 +267,8 @@ export type Database = {
           id?: string
           poster_alt: string
           poster_key: string
+          poster_portrait_alt?: string | null
+          poster_portrait_key?: string | null
           published?: boolean
           published_at?: string | null
           slug: string
@@ -245,6 +282,8 @@ export type Database = {
           id?: string
           poster_alt?: string
           poster_key?: string
+          poster_portrait_alt?: string | null
+          poster_portrait_key?: string | null
           published?: boolean
           published_at?: string | null
           slug?: string
@@ -282,7 +321,30 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      create_news_item: {
+        Args: {
+          p_title: string
+          p_slug: string
+          p_event_date: string
+          p_poster_key: string
+          p_poster_alt: string
+          p_poster_portrait_key: string
+          p_poster_portrait_alt: string
+        }
+        Returns: undefined
+      }
+      update_news_item: {
+        Args: {
+          p_id: string
+          p_title: string
+          p_event_date: string
+          p_poster_key: string
+          p_poster_alt: string
+          p_poster_portrait_key: string | null
+          p_poster_portrait_alt: string | null
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

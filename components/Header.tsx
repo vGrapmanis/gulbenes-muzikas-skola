@@ -14,7 +14,7 @@ const NAV: NavItem[] = [
     label: 'PAR SKOLU',
     children: [
       { label: 'Vēsture', href: '/par-skolu' },
-      { label: 'Absolventi', href: '/par-skolu#absolventi' },
+      { label: 'Absolventi', href: '/absolventi' },
     ],
   },
   { label: 'JAUNUMI', href: '/jaunumi' },
