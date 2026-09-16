@@ -12,3 +12,11 @@ export type Achievement    = Tables['achievements']['Row'];
 export type GalleryAlbum   = Tables['gallery_albums']['Row'];
 export type GalleryImage   = Tables['gallery_images']['Row'];
 export type Document       = Tables['documents']['Row'];
+export type ProgramDocument = Tables['program_documents']['Row'];
+
+export const PROGRAM_DOCUMENT_TYPES = [
+  { key: 'izglitibas_programa',       label: 'Izglītības programma' },
+  { key: 'macibu_prieksmeta_programa', label: 'Mācību priekšmeta programma' },
+] as const;
+
+export type ProgramDocumentType = typeof PROGRAM_DOCUMENT_TYPES[number]['key'];

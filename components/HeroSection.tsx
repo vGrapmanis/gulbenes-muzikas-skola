@@ -1,29 +1,35 @@
 import Image from 'next/image';
 
-// Decorative edge bar — vertical strips evoking piano keys (amber/red/teal).
-// aria-hidden, never affects text contrast.
-function EdgeBar({ side }: { side: 'left' | 'right' }) {
-  const strips = [
-    { w: 14, colors: 'from-amber-400/20 via-amber-300/10 to-transparent' },
-    { w: 10, colors: 'from-red-500/15 via-red-400/8 to-transparent' },
-    { w: 12, colors: 'from-teal-400/18 via-teal-300/10 to-transparent' },
-    { w: 8,  colors: 'from-amber-300/12 via-transparent to-transparent' },
-    { w: 10, colors: 'from-red-400/10 via-transparent to-transparent' },
+// Decorative color streaks — irregular vertical bands scattered across the
+// hero, faded top/bottom, evoking soft stage light through piano keys.
+// aria-hidden, low opacity, never affects text contrast.
+function ColorStreaks() {
+  const streaks = [
+    { left: '4%',  w: 6, h: '92%', top: '4%',  blur: 6, color: 'rgba(217,119,6,0.30)' },   // amber
+    { left: '12%', w: 3, h: '55%', top: '20%', blur: 4, color: 'rgba(180,180,180,0.15)' }, // gray
+    { left: '19%', w: 2, h: '45%', top: '30%', blur: 3, color: 'rgba(220,38,38,0.16)' },   // red
+    { left: '27%', w: 3, h: '60%', top: '15%', blur: 4, color: 'rgba(13,148,136,0.18)' },  // teal
+    { left: '73%', w: 3, h: '55%', top: '22%', blur: 4, color: 'rgba(13,148,136,0.18)' },  // teal
+    { left: '81%', w: 2, h: '48%', top: '28%', blur: 3, color: 'rgba(220,38,38,0.16)' },   // red
+    { left: '88%', w: 3, h: '58%', top: '18%', blur: 4, color: 'rgba(180,180,180,0.15)' }, // gray
+    { left: '96%', w: 6, h: '90%', top: '5%',  blur: 6, color: 'rgba(217,119,6,0.30)' },   // amber
   ];
 
-  const ordered = side === 'right' ? [...strips].reverse() : strips;
-
   return (
-    <div
-      aria-hidden="true"
-      className={`absolute inset-y-0 ${side === 'left' ? 'left-0' : 'right-0'} z-0 flex pointer-events-none`}
-    >
-      {ordered.map((s, i) => (
+    <div aria-hidden="true" className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+      {streaks.map((s, i) => (
         <div
           key={i}
-          style={{ width: s.w }}
-          className={`h-full bg-gradient-to-b ${s.colors} opacity-80`}
-        />
+          style={{
+            left: s.left,
+            width: s.w,
+            top: s.top,
+            height: s.h,
+            filter: `blur(${s.blur}px)`,
+            background: `linear-gradient(to bottom, transparent, ${s.color}, transparent)`,
+          }}
+          className="absolute"
+          />
       ))}
     </div>
   );
@@ -35,8 +41,7 @@ export default function HeroSection() {
       className="relative min-h-[calc(100vh-4rem)] bg-black flex flex-col items-center justify-center overflow-hidden"
       aria-label="Galvenā lapa"
     >
-      <EdgeBar side="left" />
-      <EdgeBar side="right" />
+      <ColorStreaks />
 
       {/* Content — above decorative bars */}
       <div className="relative z-10 flex flex-col items-center text-center px-6 py-16 gap-6 max-w-3xl mx-auto">

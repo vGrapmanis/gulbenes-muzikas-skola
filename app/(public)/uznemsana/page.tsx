@@ -1,6 +1,10 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { createClient } from '@/lib/supabase/server';
+import { PROGRAMS } from '@/lib/programs';
+import ProgramsSection from '@/components/uznemsana/ProgramsSection';
+import type { ProgramDocument } from '@/lib/types';
 
 export const metadata: Metadata = {
   title: 'Uzņemšana',
@@ -8,53 +12,21 @@ export const metadata: Metadata = {
     'Gulbenes Mūzikas skola aicina topošos audzēkņus apgūt mūzikas instrumenta spēli. Uzzini par izglītības programmām un piesakies mācībām.',
 };
 
-const programs = [
-  {
-    name: 'Taustiņinstrumentu spēle',
-    instruments: ['Klavieres'],
-  },
-  {
-    name: 'Stīgu instrumentu spēle',
-    instruments: ['Vijole', 'Kokle'],
-  },
-  {
-    name: 'Sitaminstrumentu spēle',
-    instruments: ['Bungas'],
-  },
-  {
-    name: 'Pūšaminstrumentu spēle',
-    instruments: ['Flauta', 'Saksofons', 'Klarnete', 'Tuba', 'Eifonijs', 'Mežrags', 'Trompete'],
-  },
-];
+export default async function UznemsanaPage() {
+  const supabase = await createClient();
+  const { data: programDocs } = await supabase
+    .from('program_documents')
+    .select('*');
 
-function ProgramCard({ name, instruments }: { name: string; instruments: string[] }) {
-  return (
-    <article className="bg-white border border-gray-300 rounded-lg p-6 flex flex-col gap-4">
-      <div className="w-10 h-10 shrink-0" aria-hidden="true">
-        <Image
-          src="/brand/piano-keys-fan.png"
-          alt=""
-          width={40}
-          height={40}
-          className="w-full h-full object-contain"
-        />
-      </div>
-      <h3 className="font-heading font-bold text-scale-lg text-ink leading-heading">{name}</h3>
-      <ul className="flex flex-wrap gap-2" aria-label="Instrumenti">
-        {instruments.map((instr) => (
-          <li
-            key={instr}
-            className="text-scale-sm text-ink bg-gray-100 rounded-full px-3 py-1 leading-none"
-          >
-            {instr}
-          </li>
-        ))}
-      </ul>
-    </article>
+  const docsByInstrument = (programDocs ?? []).reduce<Record<string, ProgramDocument[]>>(
+    (acc, doc) => {
+      if (!acc[doc.instrument_name]) acc[doc.instrument_name] = [];
+      acc[doc.instrument_name].push(doc);
+      return acc;
+    },
+    {}
   );
-}
 
-export default function UznemsanaPage() {
   return (
     <div>
       {/* ── Hero ── */}
@@ -107,11 +79,7 @@ export default function UznemsanaPage() {
           <span className="text-scale-sm text-gray-500 hidden sm:block">Ko iespējams apgūt</span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {programs.map((prog) => (
-            <ProgramCard key={prog.name} name={prog.name} instruments={prog.instruments} />
-          ))}
-        </div>
+        <ProgramsSection programs={PROGRAMS} docsByInstrument={docsByInstrument} />
       </section>
 
       {/* ── Contact ── */}

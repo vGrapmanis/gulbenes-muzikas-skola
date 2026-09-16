@@ -23,6 +23,15 @@ export const metadata: Metadata = {
   description:
     'Gulbenes Mūzikas Skola — profesionālās ievirzes izglītības iestāde Gulbenē.',
   metadataBase: new URL('https://gulbenesms.lv'),
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.png', type: 'image/png', sizes: '32x32' },
+      { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
+      { url: '/icon-512.png', type: 'image/png', sizes: '512x512' },
+    ],
+    apple: [{ url: '/apple-icon.png', sizes: '180x180' }],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

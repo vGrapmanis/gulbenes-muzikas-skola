@@ -11,6 +11,7 @@ const LINKS = [
   { label: 'Sasniegumi',      href: '/admin/sasniegumi' },
   { label: 'Galerija',        href: '/admin/galerija' },
   { label: 'Dokumenti',       href: '/admin/dokumenti' },
+  { label: 'Uzņemšana',      href: '/admin/uznemsana' },
 ];
 
 export default function AdminSidebar() {

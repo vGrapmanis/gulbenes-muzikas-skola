@@ -316,6 +316,33 @@ export type Database = {
         }
         Relationships: []
       }
+      program_documents: {
+        Row: {
+          id: string
+          instrument_name: string
+          document_type: string
+          file_key: string
+          file_size: number | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          instrument_name: string
+          document_type: string
+          file_key: string
+          file_size?: number | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          instrument_name?: string
+          document_type?: string
+          file_key?: string
+          file_size?: number | null
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

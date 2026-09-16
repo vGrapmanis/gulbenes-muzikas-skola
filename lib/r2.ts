@@ -17,6 +17,11 @@ export function newDocumentKey(): string {
   return `documents/${crypto.randomUUID()}.pdf`;
 }
 
+/** Generate a unique R2 key for a program document PDF. */
+export function newProgramDocumentKey(): string {
+  return `program-documents/${crypto.randomUUID()}.pdf`;
+}
+
 /** Generate a unique R2 key for a news poster image. */
 export function newNewsKey(mime: string): string {
   const ext: Record<string, string> = {

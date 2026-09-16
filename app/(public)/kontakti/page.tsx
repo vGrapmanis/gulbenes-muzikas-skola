@@ -84,7 +84,7 @@ export default function KontaktiPage() {
             </h2>
             <dl>
               <ContactRow label="Direktore">Ilona Matīsa</ContactRow>
-              <ContactRow label="Direktores vietniece">Māra Mezīte</ContactRow>
+              <ContactRow label="Direktores vietniece">Vēsma Kļaviņa</ContactRow>
             </dl>
           </section>
 
