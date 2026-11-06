@@ -15,11 +15,16 @@ deferred with the school's sign-off).
 - [ ] **Exact contact details & bank requisites** — confirm current and correct.
 - [ ] **Who controls `gulbenesms.lv` DNS** — needed for the cutover and the R2
       media subdomain. (See `docs/deployment.md`.)
-- [ ] **Accessibility statement details** — responsible body, contact for feedback,
-      and enforcement-procedure wording (public-sector requirement).
-- [ ] **Privacy policy inputs** — controller, contact (DPO if any), what data is
-      processed, hosting locations (Supabase EU, Cloudflare). Use
-      `prompts/privacy-policy.md`.
+- [ ] **Accessibility statement details** — page now published at `/pieejamiba`
+      with the known facts filled in; the responsible oversight body, exact
+      statement date, and the full inaccessible-content list are still marked
+      `[JĀPĀRBAUDA SKOLAI: ...]` on the page and need school confirmation.
+- [ ] **Privacy policy inputs** — page now published at `/privatuma-politika`
+      with controller identity, processors (Supabase EU, Cloudflare), and
+      cookie/retention facts filled in; DPO contact, exact retention periods,
+      and the Datu valsts inspekcijas contact details are still marked
+      `[JĀPĀRBAUDA SKOLAI: ...]` on the page and need school/legal review. Use
+      `docs/privacy-policy.md`.
 
 ## Per-section content
 
@@ -63,9 +68,12 @@ deferred with the school's sign-off).
 ## Site-wide content
 
 - [ ] Latvian navigation labels and footer text.
-- [ ] Cookie-consent banner copy (Latvian).
-- [ ] Privacy policy page (Latvian) — generated, reviewed, approved.
-- [ ] Accessibility statement page (Latvian).
+- [x] Cookie-consent banner copy (Latvian) — includes an equal-weight
+      "Noraidīt" (decline) option alongside "Piekrist", per `docs/accessibility.md`.
+- [ ] Privacy policy page (Latvian) — drafted at `/privatuma-politika`;
+      placeholders still need school/legal review before launch.
+- [ ] Accessibility statement page (Latvian) — drafted at `/pieejamiba`;
+      placeholders still need school confirmation before launch.
 - [ ] 404 and error pages (Latvian, on-brand).
 - [ ] Favicon + social share (OG) image.
 - [ ] Every content image has meaningful Latvian alt text.

@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { uploadToR2, deleteFromR2 } from '@/lib/r2';
+import { isContentExpired } from '@/lib/content-expiry';
 
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
 const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif']);
@@ -218,5 +219,26 @@ export async function setCoverAction(albumId: string, imageKey: string): Promise
   if (error) return { error: 'Vāka iestatīšana neizdevās.' };
 
   revalidateGallery(albumId);
+  return {};
+}
+
+// ── Expired albums cleanup ─────────────────────────────────────────────────────
+
+export async function deleteExpiredAlbumsAction(): Promise<ActionResult> {
+  const supabase = await createClient();
+  const { data: all, error: selectError } = await supabase
+    .from('gallery_albums')
+    .select('id, event_date, created_at');
+
+  if (selectError) return { error: 'Novecojušo albumu meklēšana neizdevās.' };
+
+  const expired = (all ?? []).filter((item) => isContentExpired(item));
+  if (expired.length === 0) return {};
+
+  for (const album of expired) {
+    const result = await deleteAlbumAction(album.id);
+    if (result.error) return result;
+  }
+
   return {};
 }

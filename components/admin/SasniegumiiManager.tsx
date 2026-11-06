@@ -3,11 +3,13 @@
 import { useRef, useState, useTransition } from 'react';
 import type { Achievement } from '@/lib/types';
 import { mediaUrl } from '@/lib/media-url';
+import { EXPIRY_YEARS, isContentExpired } from '@/lib/content-expiry';
 import {
   createAchievementAction,
   updateAchievementAction,
   deleteAchievementAction,
   toggleAchievementPublishAction,
+  deleteExpiredAchievementsAction,
 } from '@/app/admin/(protected)/sasniegumi/actions';
 
 // ── Create form ───────────────────────────────────────────────────────────────
@@ -273,6 +275,11 @@ function AchievementRow({ item }: { item: Achievement }) {
             >
               {item.published ? 'Publicēts' : 'Melnraksts'}
             </span>
+            {isContentExpired(item) && (
+              <span className="rounded bg-amber-900/60 px-2 py-0.5 text-xs font-medium text-amber-300">
+                Vecāks par {EXPIRY_YEARS} gadiem
+              </span>
+            )}
           </div>
           {item.event_date && (
             <p className="mt-0.5 text-sm text-gray-400">{item.event_date}</p>
@@ -321,16 +328,37 @@ function AchievementRow({ item }: { item: Achievement }) {
 
 export default function SasniegumiiManager({ items }: { items: Achievement[] }) {
   const [showForm, setShowForm] = useState(false);
+  const [removedIds, setRemovedIds] = useState<Set<string>>(new Set());
+  const [pendingCleanup, startCleanupTransition] = useTransition();
+  const [cleanupError, setCleanupError] = useState<string | null>(null);
 
-  const sorted = [...items].sort(
+  const visibleItems = items.filter((item) => !removedIds.has(item.id));
+  const expiredItems = visibleItems.filter((item) => isContentExpired(item));
+
+  const sorted = [...visibleItems].sort(
     (a, b) =>
       a.display_order - b.display_order ||
       (b.event_date ?? '').localeCompare(a.event_date ?? '')
   );
 
+  function handleDeleteExpired() {
+    if (
+      !confirm(
+        `Dzēst ${expiredItems.length} novecojušus ierakstus (vecāki par ${EXPIRY_YEARS} gadiem)? Šo darbību nevar atsaukt.`
+      )
+    )
+      return;
+    setCleanupError(null);
+    startCleanupTransition(async () => {
+      const result = await deleteExpiredAchievementsAction();
+      if (result.error) setCleanupError(result.error);
+      else setRemovedIds(new Set(expiredItems.map((e) => e.id)));
+    });
+  }
+
   return (
     <div className="space-y-8">
-      <div>
+      <div className="flex flex-wrap items-center gap-3">
         {!showForm ? (
           <button
             onClick={() => setShowForm(true)}
@@ -339,14 +367,32 @@ export default function SasniegumiiManager({ items }: { items: Achievement[] }) 
             + Pievienot sasniegumu
           </button>
         ) : (
-          <div className="rounded border border-gray-700 bg-gray-800/50 p-5">
+          <div className="w-full rounded border border-gray-700 bg-gray-800/50 p-5">
             <h2 className="mb-5 text-base font-semibold text-paper">Jauns sasniegums</h2>
             <CreateForm onCancel={() => setShowForm(false)} />
           </div>
         )}
+
+        {!showForm && expiredItems.length > 0 && (
+          <button
+            onClick={handleDeleteExpired}
+            disabled={pendingCleanup}
+            className="rounded border border-amber-800/60 px-4 py-2.5 text-sm text-amber-400 transition hover:border-amber-600 disabled:opacity-50"
+          >
+            {pendingCleanup
+              ? 'Dzēš…'
+              : `Dzēst novecojušos ierakstus (${expiredItems.length})`}
+          </button>
+        )}
       </div>
 
-      {items.length === 0 ? (
+      {cleanupError && (
+        <p role="alert" className="rounded bg-red-900/40 px-4 py-2 text-sm text-red-300">
+          {cleanupError}
+        </p>
+      )}
+
+      {visibleItems.length === 0 ? (
         <p className="text-gray-400">Nav neviena sasnieguma. Pievienojiet pirmo augstāk.</p>
       ) : (
         <ul className="space-y-3">

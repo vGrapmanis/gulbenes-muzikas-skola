@@ -115,6 +115,17 @@ One row per graduate; the UI groups by `year` into cards.
 > object(s) in the same server action to avoid orphaned files. For albums, cascade
 > to all `gallery_images` rows **and** their R2 objects.
 
+### Content expiry (Sasniegumi / Galerija, 2 years)
+
+Achievements and gallery albums stop being visible to the public 2 years
+after their effective date (`event_date` if set, otherwise `created_at`).
+This is enforced in the `anon` read RLS policy (see below) — no row is ever
+deleted automatically. The admin panel flags expired rows/albums with a
+"Vecāks par 2 gadiem" badge and offers a manual "Dzēst novecojušos ierakstus"
+bulk action (reusing the normal delete flow: DB row + R2 object cleanup) so
+a human confirms before anything is permanently removed. See migration
+`20260917000001_expire_old_content.sql`.
+
 ## Row Level Security (RLS)
 
 Single-admin model: any authenticated user is the admin. Enable RLS on every table.
@@ -140,16 +151,22 @@ create policy "public read published graduates"
 create policy "public read published news"
   on news for select to anon, authenticated using (published);
 
-create policy "public read published achievements"
-  on achievements for select to anon, authenticated using (published);
+-- achievements and gallery albums also expire 2 years after their
+-- effective date (event_date, falling back to created_at) — see
+-- "Content expiry" above and migration 20260917000001_expire_old_content.sql
+create policy "anon read published achievements"
+  on achievements for select to anon
+  using (published and coalesce(event_date, created_at::date) > (now() - interval '2 years'));
 
-create policy "public read published albums"
-  on gallery_albums for select to anon, authenticated using (published);
+create policy "anon read published albums"
+  on gallery_albums for select to anon
+  using (published and coalesce(event_date, created_at::date) > (now() - interval '2 years'));
 
-create policy "public read album images"
-  on gallery_images for select to anon, authenticated
+create policy "anon read album images"
+  on gallery_images for select to anon
   using (exists (select 1 from gallery_albums a
-                 where a.id = gallery_images.album_id and a.published));
+                 where a.id = gallery_images.album_id and a.published
+                   and coalesce(a.event_date, a.created_at::date) > (now() - interval '2 years')));
 
 create policy "public read published documents"
   on documents for select to anon, authenticated using (published);

@@ -24,6 +24,9 @@ axe on PRs touching the relevant areas and on `main`.
       slugs, search, metadata).
 - [ ] Only `published` content is visible to anonymous visitors (verify a draft is
       hidden when logged out).
+- [ ] A Sasniegumi/Galerija item dated >2 years ago is hidden from anonymous
+      visitors but still visible (with an "expired" badge) in the admin panel;
+      the admin's manual "delete expired" action removes it and its R2 file(s).
 - [ ] **Jaunumi:** grid + detail, newest first, pagination, posters load with alt.
 - [ ] **Sasniegumi:** cards show result/student/description + photo; detail works.
 - [ ] **Galerija:** album list → album grid → lightbox (keyboard + screen reader).

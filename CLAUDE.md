@@ -58,6 +58,9 @@ Rationale and alternatives live in `docs/architecture.md`.
    heavy server-side deps; prefer dynamic import; audit bundle before merging.
 4. **Public visitors only ever read `published` content.** Writes require an
    authenticated admin. Enforced in Postgres via RLS, not just in the UI.
+   Sasniegumi and Galerija also auto-expire from public view 2 years after
+   their date — same RLS-level enforcement, no auto-deletion. See
+   `docs/schemas.md` and `docs/sections.md`.
 5. **Accessibility and GDPR are acceptance criteria**, not extras. A feature is
    not "done" until it passes `docs/accessibility.md`.
 6. **Brand is near-monochrome and high-contrast.** Ink `#201820`, black `#000000`,
@@ -75,7 +78,9 @@ Rationale and alternatives live in `docs/architecture.md`.
 2. **Par skolu** (About) — Vēsture (text) + Absolventi (cards per year).
 3. **Jaunumi** (News) — concert/event posters.
 4. **Sasniegumi** (Achievements) — competition results, photo + description.
+   Auto-expires from public view 2 years after posting.
 5. **Galerija** (Gallery) — albums of images from events/competitions.
+   Auto-expires from public view 2 years after posting.
 6. **Uzņemšana** (Admissions) — informational text.
 7. **Dokumenti** (Documents) — PDFs, view in new tab or download.
 8. **Kontakti** (Contacts) — like the old site, **no form and no images**.

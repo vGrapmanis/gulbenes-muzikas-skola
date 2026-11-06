@@ -31,7 +31,8 @@ centered, single-screen hero on a **near-black** background, top to bottom:
   left and right edges with faint amber/teal/red gradients. **Decorative only**,
   `aria-hidden`, low opacity, behind content — must not reduce text contrast
   (`docs/design-system.md`).
-- **Cookie banner** pinned to the bottom (Latvian) with a "Piekrist" button.
+- **Cookie banner** pinned to the bottom (Latvian) with equal-weight "Piekrist"
+  and "Noraidīt" buttons, plus a link to `/privatuma-politika`.
 
 - **Data:** editable hero text (title + motto) from the `pages` table
   (`slug = 'home_hero'`). Optionally surface the latest few `news` items below the
@@ -67,6 +68,8 @@ Two subsections on one page (or `/par-skolu` + `/par-skolu/absolventi`):
   result (e.g. "1. vieta"), date, description.
 - **UI:** card grid (photo + result + student + short text), newest first; optional
   detail page. Make the result/placement visually prominent.
+- **Retention:** entries auto-expire from public view 2 years after their date
+  (event date, or creation date as fallback) — see "Content expiry" below.
 
 ## 5. Galerija — `/galerija`
 
@@ -76,6 +79,8 @@ Two subsections on one page (or `/par-skolu` + `/par-skolu/absolventi`):
   `/galerija/[slug]` shows the album image grid with a keyboard-accessible
   lightbox. Lazy-load images; serve responsive sizes. This is the storage-heavy
   section — see image handling below.
+- **Retention:** albums auto-expire from public view 2 years after their date
+  (event date, or creation date as fallback) — see "Content expiry" below.
 
 ## 6. Uzņemšana — `/uznemsana`
 
@@ -115,6 +120,17 @@ Two subsections on one page (or `/par-skolu` + `/par-skolu/absolventi`):
 - Lazy-load below-the-fold images; set explicit width/height to avoid layout shift.
 - Accept common formats; prefer serving WebP/AVIF. Cap upload size in the admin and
   validate type server-side.
+
+## Content expiry (Sasniegumi / Galerija)
+
+Achievements and gallery albums stop being visible to the public 2 years
+after their effective date (`event_date`, falling back to `created_at` if no
+event date was set). This is enforced in Postgres RLS on the `anon` read
+policies — not application code — so it can't be bypassed or forgotten in a
+query. Nothing is deleted automatically; the admin panel flags expired
+rows/albums and offers a manual bulk-delete. Full detail: `docs/schemas.md`
+("Content expiry" + RLS section) and `docs/admin.md` ("Content expiry"
+workflow).
 
 ## Empty states
 

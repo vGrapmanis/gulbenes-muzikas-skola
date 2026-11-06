@@ -5,10 +5,12 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import type { GalleryAlbum } from '@/lib/types';
 import { mediaUrl } from '@/lib/media-url';
+import { EXPIRY_YEARS, isContentExpired } from '@/lib/content-expiry';
 import {
   createAlbumAction,
   deleteAlbumAction,
   togglePublishAlbumAction,
+  deleteExpiredAlbumsAction,
 } from '@/app/admin/(protected)/galerija/actions';
 
 // ── Create form ───────────────────────────────────────────────────────────────
@@ -156,6 +158,11 @@ function AlbumCard({ album }: { album: GalleryAlbum }) {
         >
           {album.published ? 'Publicēts' : 'Melnraksts'}
         </span>
+        {isContentExpired(album) && (
+          <span className="absolute top-2 left-2 rounded bg-amber-900/60 px-2 py-0.5 text-xs font-medium text-amber-300">
+            Vecāks par {EXPIRY_YEARS} gadiem
+          </span>
+        )}
       </div>
 
       {/* Info + actions */}
@@ -207,10 +214,31 @@ function AlbumCard({ album }: { album: GalleryAlbum }) {
 
 export default function GalerijaManager({ albums }: { albums: GalleryAlbum[] }) {
   const [showForm, setShowForm] = useState(false);
+  const [removedIds, setRemovedIds] = useState<Set<string>>(new Set());
+  const [pendingCleanup, startCleanupTransition] = useTransition();
+  const [cleanupError, setCleanupError] = useState<string | null>(null);
+
+  const visibleAlbums = albums.filter((a) => !removedIds.has(a.id));
+  const expiredAlbums = visibleAlbums.filter((item) => isContentExpired(item));
+
+  function handleDeleteExpired() {
+    if (
+      !confirm(
+        `Dzēst ${expiredAlbums.length} novecojušus albumus un visus to attēlus (vecāki par ${EXPIRY_YEARS} gadiem)? Šo darbību nevar atsaukt.`
+      )
+    )
+      return;
+    setCleanupError(null);
+    startCleanupTransition(async () => {
+      const result = await deleteExpiredAlbumsAction();
+      if (result.error) setCleanupError(result.error);
+      else setRemovedIds(new Set(expiredAlbums.map((a) => a.id)));
+    });
+  }
 
   return (
     <div className="space-y-8">
-      <div>
+      <div className="flex flex-wrap items-center gap-3">
         {!showForm ? (
           <button
             onClick={() => setShowForm(true)}
@@ -219,20 +247,38 @@ export default function GalerijaManager({ albums }: { albums: GalleryAlbum[] }) 
             + Jauns albums
           </button>
         ) : (
-          <div className="max-w-lg rounded border border-gray-700 bg-gray-800/50 p-5">
+          <div className="w-full max-w-lg rounded border border-gray-700 bg-gray-800/50 p-5">
             <h2 className="mb-4 text-base font-semibold text-paper">Jauns albums</h2>
             <CreateAlbumForm onCancel={() => setShowForm(false)} />
           </div>
         )}
+
+        {!showForm && expiredAlbums.length > 0 && (
+          <button
+            onClick={handleDeleteExpired}
+            disabled={pendingCleanup}
+            className="rounded border border-amber-800/60 px-4 py-2.5 text-sm text-amber-400 transition hover:border-amber-600 disabled:opacity-50"
+          >
+            {pendingCleanup
+              ? 'Dzēš…'
+              : `Dzēst novecojušos albumus (${expiredAlbums.length})`}
+          </button>
+        )}
       </div>
 
-      {albums.length === 0 ? (
+      {cleanupError && (
+        <p role="alert" className="rounded bg-red-900/40 px-4 py-2 text-sm text-red-300">
+          {cleanupError}
+        </p>
+      )}
+
+      {visibleAlbums.length === 0 ? (
         <p className="text-gray-400">
           Nav neviena albuma. Izveidojiet pirmo albumu augstāk.
         </p>
       ) : (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {albums.map((album) => (
+          {visibleAlbums.map((album) => (
             <AlbumCard key={album.id} album={album} />
           ))}
         </div>

@@ -48,16 +48,6 @@ photo/gallery database**.
   Next.js on Workers, supporting SSR, ISR, middleware-ish patterns, and the
   Node.js runtime.
 
-### Alternatives considered
-
-- **Vercel + Supabase Storage** — simplest DX, but Vercel Hobby is non-commercial
-  (gray area for a public body) and Supabase Storage free is only 1 GB.
-- **Astro + Decap/Sveltia (git-based CMS)** — zero backend, but galleries with many
-  images in git are awkward and the editorial flow needs GitHub. Rejected as
-  primary for a gallery-heavy, non-technical-maintainer site.
-- **PocketBase (self-hosted)** — great all-in-one, but needs a persistent host;
-  truly-free persistent hosting is scarce.
-
 ## Rendering strategy
 
 - **Public content pages** (home, about, news list, achievements, gallery,
@@ -91,11 +81,11 @@ photo/gallery database**.
 
 ## Environments
 
-| Env       | DB / Auth            | Storage        | Host                         |
-| --------- | -------------------- | -------------- | ---------------------------- |
-| local     | Supabase (dev proj.) | R2 (dev bucket)| `pnpm dev`                   |
-| preview   | Supabase (dev proj.) | R2 (dev bucket)| `wrangler preview` / branch  |
-| production| Supabase (prod proj.)| R2 (prod bucket)| Workers → `gulbenesms.lv`   |
+| Env        | DB / Auth             | Storage          | Host                        |
+| ---------- | --------------------- | ---------------- | --------------------------- |
+| local      | Supabase (dev proj.)  | R2 (dev bucket)  | `pnpm dev`                  |
+| preview    | Supabase (dev proj.)  | R2 (dev bucket)  | `wrangler preview` / branch |
+| production | Supabase (prod proj.) | R2 (prod bucket) | Workers → `gulbenesms.lv`   |
 
 Keep dev and prod Supabase projects (and R2 buckets) separate so test content
 never reaches production.

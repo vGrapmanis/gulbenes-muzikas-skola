@@ -77,6 +77,17 @@ exist and are always shown.
 - Always confirm (Latvian modal). On delete, remove the DB row **and** the R2
   object(s). Deleting an album cascades to its images and their R2 objects.
 
+### Content expiry (Sasniegumi / Galerija)
+- Achievements and gallery albums automatically stop being shown to visitors
+  2 years after their effective date (event date, or creation date if no
+  event date was set) — enforced by RLS, not app code, so it can't be missed.
+  Nothing is deleted automatically.
+- The `/admin/sasniegumi` and `/admin/galerija` lists mark expired
+  items/albums with a "Vecāks par 2 gadiem" badge and show a "Dzēst
+  novecojušos …" button (only when at least one item has expired) that
+  bulk-deletes them — same confirm-then-delete-with-R2-cleanup flow as a
+  regular delete, just applied to every expired row at once.
+
 ## Validation & UX rules
 
 - Required fields enforced **server-side** (don't trust the client).

@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { uploadToR2, deleteFromR2, newAchievementKey } from '@/lib/r2';
+import { isContentExpired } from '@/lib/content-expiry';
 
 const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
 const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
@@ -131,6 +132,34 @@ export async function toggleAchievementPublishAction(
   const supabase = await createClient();
   const { error } = await supabase.from('achievements').update({ published }).eq('id', id);
   if (error) return { error: 'Statusa maiņa neizdevās.' };
+
+  revalidate();
+  return {};
+}
+
+export async function deleteExpiredAchievementsAction(): Promise<ActionResult> {
+  const supabase = await createClient();
+  const { data: all, error: selectError } = await supabase
+    .from('achievements')
+    .select('id, image_key, event_date, created_at');
+
+  if (selectError) return { error: 'Novecojušo ierakstu meklēšana neizdevās.' };
+
+  const expired = (all ?? []).filter((item) => isContentExpired(item));
+  if (expired.length === 0) return {};
+
+  const { error: deleteError } = await supabase
+    .from('achievements')
+    .delete()
+    .in('id', expired.map((e) => e.id));
+
+  if (deleteError) return { error: 'Dzēšana neizdevās.' };
+
+  await Promise.all(
+    expired
+      .filter((e) => e.image_key)
+      .map((e) => deleteFromR2(e.image_key as string).catch((err) => console.error('R2 delete', err)))
+  );
 
   revalidate();
   return {};
