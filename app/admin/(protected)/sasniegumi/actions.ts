@@ -20,9 +20,11 @@ export async function createAchievementAction(formData: FormData): Promise<Actio
   if (!title) return { error: 'Nosaukums ir obligāts.' };
 
   const image = formData.get('image') as File | null;
+  const imageAlt = (formData.get('image_alt') as string | null)?.trim() || null;
   let imageKey: string | null = null;
 
   if (image && image.size > 0) {
+    if (!imageAlt) return { error: 'Alt teksts ir obligāts, ja ir pievienota bilde.' };
     if (!ALLOWED_TYPES.has(image.type))
       return { error: 'Atļauts tikai JPEG, PNG vai WebP formāts.' };
     if (image.size > MAX_IMAGE_BYTES)
@@ -45,6 +47,7 @@ export async function createAchievementAction(formData: FormData): Promise<Actio
     description: (formData.get('description') as string | null)?.trim() || null,
     teacher_note: (formData.get('teacher_note') as string | null)?.trim() || null,
     image_key: imageKey,
+    image_alt: imageKey ? imageAlt : null,
     published: false,
     display_order: 0,
   });
@@ -68,6 +71,12 @@ export async function updateAchievementAction(
   if (!title) return { error: 'Nosaukums ir obligāts.' };
 
   const image = formData.get('image') as File | null;
+  const imageAlt = (formData.get('image_alt') as string | null)?.trim() || null;
+  const hasImage = (image && image.size > 0) || !!oldImageKey;
+  if (hasImage && !imageAlt) {
+    return { error: 'Alt teksts ir obligāts, ja ir pievienota bilde.' };
+  }
+
   let newImageKey: string | null = null;
 
   if (image && image.size > 0) {
@@ -93,6 +102,7 @@ export async function updateAchievementAction(
       event_date: (formData.get('event_date') as string | null)?.trim() || null,
       description: (formData.get('description') as string | null)?.trim() || null,
       teacher_note: (formData.get('teacher_note') as string | null)?.trim() || null,
+      image_alt: hasImage ? imageAlt : null,
       ...(newImageKey ? { image_key: newImageKey } : {}),
     })
     .eq('id', id);

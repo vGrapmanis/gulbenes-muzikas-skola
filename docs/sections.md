@@ -58,6 +58,9 @@ centered, single-screen hero on a **near-black** background, top to bottom:
   result (e.g. "1. vieta"), date, description.
 - **UI:** card grid (photo + result + student + short text), newest first; optional
   detail page. Make the result/placement visually prominent.
+- **Accessibility:** alt text (`image_alt`) is required whenever a photo is
+  attached — the admin form blocks saving without it, and public pages render
+  it as the image's `alt` attribute. See `docs/accessibility.md`.
 - **Retention:** entries auto-expire from public view 2 years after their date
   (event date, or creation date as fallback) — see "Content expiry" below.
 

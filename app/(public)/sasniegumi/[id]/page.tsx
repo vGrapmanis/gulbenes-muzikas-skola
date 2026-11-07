@@ -59,7 +59,7 @@ export default async function AchievementDetailPage({ params }: { params: Params
           <div className="mb-8 overflow-hidden rounded-lg border border-gray-200 bg-gray-100">
             <img
               src={mediaUrl(item.image_key)}
-              alt=""
+              alt={item.image_alt ?? ''}
               className="w-full object-cover"
             />
           </div>

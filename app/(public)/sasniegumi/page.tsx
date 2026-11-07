@@ -33,7 +33,7 @@ function FeaturedCard({ item }: { item: AchievementRow }) {
           <div className="aspect-[4/3] sm:aspect-auto sm:h-full">
             <img
               src={mediaUrl(item.image_key)}
-              alt=""
+              alt={item.image_alt ?? ''}
               className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
             />
           </div>
@@ -76,7 +76,7 @@ function GridCard({ item }: { item: AchievementRow }) {
         {item.image_key ? (
           <img
             src={mediaUrl(item.image_key)}
-            alt=""
+            alt={item.image_alt ?? ''}
             loading="lazy"
             className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
           />

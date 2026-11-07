@@ -23,6 +23,12 @@ function CreateForm({ onCancel }: { onCancel: () => void }) {
     e.preventDefault();
     setError(null);
     const fd = new FormData(e.currentTarget);
+    const image = fd.get('image') as File | null;
+    const imageAlt = (fd.get('image_alt') as string | null)?.trim();
+    if (image && image.size > 0 && !imageAlt) {
+      setError('Alt teksts ir obligāts, ja ir pievienota bilde.');
+      return;
+    }
     startTransition(async () => {
       const result = await createAchievementAction(fd);
       if (result.error) setError(result.error);
@@ -101,6 +107,22 @@ function CreateForm({ onCancel }: { onCancel: () => void }) {
         />
       </div>
 
+      <div className="space-y-1">
+        <label htmlFor="new-image_alt" className="block text-sm font-medium text-gray-300">
+          Alt teksts{' '}
+          <span className="text-xs text-gray-500">
+            (aprakstiet attēlu — tiks lasīts ekrāna lasītājiem; obligāts, ja ir bilde)
+          </span>
+        </label>
+        <input
+          id="new-image_alt"
+          name="image_alt"
+          type="text"
+          placeholder="Piem. Skolniece saņem diplomu konkursā"
+          className="w-full rounded border border-gray-600 bg-gray-800 px-3 py-2 text-paper placeholder-gray-600 focus:border-gray-400 focus:outline-none"
+        />
+      </div>
+
       <div className="flex gap-3 pt-1">
         <button
           type="submit"
@@ -131,6 +153,13 @@ function EditForm({ item, onCancel }: { item: Achievement; onCancel: () => void 
     e.preventDefault();
     setError(null);
     const fd = new FormData(e.currentTarget);
+    const image = fd.get('image') as File | null;
+    const imageAlt = (fd.get('image_alt') as string | null)?.trim();
+    const hasImage = (image && image.size > 0) || !!item.image_key;
+    if (hasImage && !imageAlt) {
+      setError('Alt teksts ir obligāts, ja ir pievienota bilde.');
+      return;
+    }
     startTransition(async () => {
       const result = await updateAchievementAction(item.id, fd, item.image_key);
       if (result.error) setError(result.error);
@@ -197,7 +226,7 @@ function EditForm({ item, onCancel }: { item: Achievement; onCancel: () => void 
         {item.image_key && (
           <img
             src={mediaUrl(item.image_key)}
-            alt=""
+            alt={item.image_alt ?? ''}
             className="mb-2 h-24 w-auto rounded border border-gray-700 object-cover"
           />
         )}
@@ -206,6 +235,22 @@ function EditForm({ item, onCancel }: { item: Achievement; onCancel: () => void 
           type="file"
           accept="image/jpeg,image/png,image/webp"
           className="w-full rounded border border-gray-600 bg-gray-800 px-3 py-2 text-gray-300 file:mr-3 file:rounded file:border-0 file:bg-gray-700 file:px-3 file:py-1 file:text-sm file:text-paper focus:border-gray-400 focus:outline-none"
+        />
+      </div>
+
+      <div className="space-y-1">
+        <label className="block text-sm font-medium text-gray-300">
+          Alt teksts{' '}
+          <span className="text-xs text-gray-500">
+            (aprakstiet attēlu — tiks lasīts ekrāna lasītājiem; obligāts, ja ir bilde)
+          </span>
+        </label>
+        <input
+          name="image_alt"
+          type="text"
+          defaultValue={item.image_alt ?? ''}
+          placeholder="Piem. Skolniece saņem diplomu konkursā"
+          className="w-full rounded border border-gray-600 bg-gray-800 px-3 py-2 text-paper placeholder-gray-600 focus:border-gray-400 focus:outline-none"
         />
       </div>
 
@@ -258,7 +303,7 @@ function AchievementRow({ item }: { item: Achievement }) {
         {item.image_key && (
           <img
             src={mediaUrl(item.image_key)}
-            alt=""
+            alt={item.image_alt ?? ''}
             className="h-16 w-16 shrink-0 rounded object-cover"
           />
         )}
