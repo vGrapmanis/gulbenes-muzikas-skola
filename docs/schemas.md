@@ -116,6 +116,36 @@ anything is permanently removed. An unpublished draft with an old
 never flagged or swept, regardless of age; it only becomes eligible once
 published. See migration `20260917000001_expire_old_content.sql`.
 
+### R2 object keys are bearer tokens, not access-controlled URLs
+
+`published` and the 2-year expiry window are enforced in Postgres RLS, which
+gates reads of **rows**. They do **not** gate reads of the **R2 objects**
+those rows point to. In production, media is served from the R2 custom
+domain directly (`NEXT_PUBLIC_MEDIA_BASE_URL`), with no database in the
+request path at all; `/api/media/[...key]` (a thin, keyless passthrough to
+R2) only stands in for that in local dev, where there is no custom domain.
+So anyone who already has a direct object URL — e.g. it was indexed, shared,
+or saved before the row was hidden — can keep loading it indefinitely,
+regardless of `published` or expiry, because **no row state ever triggers
+object deletion**. Only an explicit delete (manual, or the "Dzēst
+novecojušos ierakstus" bulk action) removes the R2 object (see note above).
+
+This is a conscious tradeoff: object keys include a random UUID (not
+sequentially guessable), and keeping R2 reads keyless/off the request path
+is what makes media serving free and fast on the Workers plan. Enforcing
+access control at read time would mean either proxying all media through a
+Worker route backed by a DB check (defeats the point of the custom domain)
+or issuing short-lived signed R2 URLs (meaningfully more complexity for a
+small-budget site). Neither is implemented.
+
+**Practical implication:** "Unpublish"/"Paslēpt" in the admin UI only
+removes a row from public *listings* — it does not revoke access to an
+already-shared link. Achievement and gallery images often depict minors, so
+if a takedown or GDPR erasure request needs an image to actually stop being
+reachable, the admin must use **Delete**, not Unpublish. The admin UI
+surfaces this distinction inline (see `SasniegumiiManager` and
+`GalerijaManager`).
+
 ## Row Level Security (RLS)
 
 Single-admin model: any authenticated user is the admin. Enable RLS on every table.

@@ -238,6 +238,12 @@ export default function GalerijaManager({ albums }: { albums: GalleryAlbum[] }) 
 
   return (
     <div className="space-y-8">
+      <p className="text-sm text-gray-400">
+        "Paslēpt" noņem albumu vai bildi no publiskās vietnes, bet attēli
+        paliek pieejami ikvienam, kam jau ir to tiešā saite. Ja attēls
+        jāpadara pilnībā nepieejams (piemēram, pēc kāda lūguma), izmantojiet
+        "Dzēst".
+      </p>
       <div className="flex flex-wrap items-center gap-3">
         {!showForm ? (
           <button

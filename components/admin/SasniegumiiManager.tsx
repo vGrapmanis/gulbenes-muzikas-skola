@@ -403,6 +403,11 @@ export default function SasniegumiiManager({ items }: { items: Achievement[] }) 
 
   return (
     <div className="space-y-8">
+      <p className="text-sm text-gray-400">
+        "Paslēpt" noņem ierakstu no publiskās vietnes, bet attēls paliek
+        pieejams ikvienam, kam jau ir tā tiešā saite. Ja attēls jāpadara
+        pilnībā nepieejams (piemēram, pēc kāda lūguma), izmantojiet "Dzēst".
+      </p>
       <div className="flex flex-wrap items-center gap-3">
         {!showForm ? (
           <button
