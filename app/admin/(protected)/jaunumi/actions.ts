@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
+import { requireAdmin } from '@/lib/supabase/admin';
 import { uploadToR2, deleteFromR2, newNewsKey } from '@/lib/r2';
 
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
@@ -44,6 +45,8 @@ async function uploadPoster(file: File, label: string): Promise<{ key: string } 
 }
 
 export async function createNewsAction(formData: FormData): Promise<ActionResult> {
+  await requireAdmin();
+
   const title = (formData.get('title') as string | null)?.trim();
   if (!title) return { error: 'Nosaukums ir obligāts.' };
 
@@ -97,6 +100,8 @@ export async function updateNewsAction(
   oldLandscapeKey: string,
   oldPortraitKey: string | null,
 ): Promise<ActionResult> {
+  await requireAdmin();
+
   const title = (formData.get('title') as string | null)?.trim();
   if (!title) return { error: 'Nosaukums ir obligāts.' };
 
@@ -156,6 +161,8 @@ export async function deleteNewsAction(
   landscapeKey: string,
   portraitKey: string | null,
 ): Promise<ActionResult> {
+  await requireAdmin();
+
   const supabase = await createClient();
   const { error } = await supabase.from('news').delete().eq('id', id);
   if (error) return { error: 'Dzēšana neizdevās.' };
@@ -171,6 +178,8 @@ export async function toggleNewsPublishAction(
   id: string,
   published: boolean,
 ): Promise<ActionResult> {
+  await requireAdmin();
+
   const supabase = await createClient();
   const { error } = await supabase
     .from('news')

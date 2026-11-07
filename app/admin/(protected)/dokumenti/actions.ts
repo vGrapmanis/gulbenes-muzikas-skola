@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
+import { requireAdmin } from '@/lib/supabase/admin';
 import { uploadToR2, deleteFromR2, newDocumentKey } from '@/lib/r2';
 
 const MAX_FILE_BYTES = 20 * 1024 * 1024; // 20 MB
@@ -9,6 +10,8 @@ const MAX_FILE_BYTES = 20 * 1024 * 1024; // 20 MB
 export type ActionResult = { error?: string };
 
 export async function uploadDocumentAction(formData: FormData): Promise<ActionResult> {
+  await requireAdmin();
+
   const title = (formData.get('title') as string | null)?.trim();
   const file = formData.get('file') as File | null;
 
@@ -49,6 +52,8 @@ export async function uploadDocumentAction(formData: FormData): Promise<ActionRe
 }
 
 export async function deleteDocumentAction(id: string, fileKey: string): Promise<ActionResult> {
+  await requireAdmin();
+
   const supabase = await createClient();
   const { error } = await supabase.from('documents').delete().eq('id', id);
   if (error) return { error: 'Dzēšana neizdevās.' };
@@ -61,6 +66,8 @@ export async function deleteDocumentAction(id: string, fileKey: string): Promise
 }
 
 export async function togglePublishAction(id: string, published: boolean): Promise<ActionResult> {
+  await requireAdmin();
+
   const supabase = await createClient();
   const { error } = await supabase
     .from('documents')
@@ -77,6 +84,8 @@ export async function updateDocumentMetaAction(
   id: string,
   data: { title: string; category?: string; description?: string; display_order: number }
 ): Promise<ActionResult> {
+  await requireAdmin();
+
   const supabase = await createClient();
   const { error } = await supabase
     .from('documents')

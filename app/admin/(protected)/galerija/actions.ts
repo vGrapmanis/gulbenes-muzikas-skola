@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
+import { requireAdmin } from '@/lib/supabase/admin';
 import { uploadToR2, deleteFromR2 } from '@/lib/r2';
 import { isContentExpired } from '@/lib/content-expiry';
 
@@ -47,6 +48,8 @@ function revalidateGallery(albumId?: string) {
 export async function createAlbumAction(
   formData: FormData
 ): Promise<ActionResult & { id?: string }> {
+  await requireAdmin();
+
   const title = (formData.get('title') as string | null)?.trim();
   if (!title) return { error: 'Nosaukums ir obligāts.' };
 
@@ -71,6 +74,8 @@ export async function updateAlbumMetaAction(
   id: string,
   data: { title: string; description?: string; event_date?: string }
 ): Promise<ActionResult> {
+  await requireAdmin();
+
   if (!data.title.trim()) return { error: 'Nosaukums ir obligāts.' };
 
   const supabase = await createClient();
@@ -93,6 +98,8 @@ export async function togglePublishAlbumAction(
   id: string,
   published: boolean
 ): Promise<ActionResult> {
+  await requireAdmin();
+
   const supabase = await createClient();
   const { error } = await supabase
     .from('gallery_albums')
@@ -106,6 +113,8 @@ export async function togglePublishAlbumAction(
 }
 
 export async function deleteAlbumAction(id: string): Promise<ActionResult> {
+  await requireAdmin();
+
   const supabase = await createClient();
 
   const [{ data: images }, { data: album }] = await Promise.all([
@@ -128,6 +137,8 @@ export async function deleteAlbumAction(id: string): Promise<ActionResult> {
 // ── Image upload / delete / cover ─────────────────────────────────────────────
 
 export async function uploadImagesAction(formData: FormData): Promise<ActionResult> {
+  await requireAdmin();
+
   const albumId = (formData.get('album_id') as string | null)?.trim();
   if (!albumId) return { error: 'Albums nav norādīts.' };
 
@@ -188,6 +199,8 @@ export async function deleteImageAction(
   imageKey: string,
   albumId: string
 ): Promise<ActionResult> {
+  await requireAdmin();
+
   const supabase = await createClient();
 
   const { data: album } = await supabase
@@ -210,6 +223,8 @@ export async function deleteImageAction(
 }
 
 export async function setCoverAction(albumId: string, imageKey: string): Promise<ActionResult> {
+  await requireAdmin();
+
   const supabase = await createClient();
   const { error } = await supabase
     .from('gallery_albums')
@@ -225,6 +240,8 @@ export async function setCoverAction(albumId: string, imageKey: string): Promise
 // ── Expired albums cleanup ─────────────────────────────────────────────────────
 
 export async function deleteExpiredAlbumsAction(): Promise<ActionResult> {
+  await requireAdmin();
+
   const supabase = await createClient();
   const { data: all, error: selectError } = await supabase
     .from('gallery_albums')

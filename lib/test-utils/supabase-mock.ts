@@ -14,7 +14,15 @@ export type SupabaseOp = {
 
 export type SupabaseOpResult = { data?: unknown; error?: unknown };
 
-export function createSupabaseMock(handler: (op: SupabaseOp) => SupabaseOpResult) {
+const FAKE_ADMIN_USER = { id: 'test-admin', email: 'admin@test.local' };
+
+// By default, requireAdmin() sees a signed-in user so action tests can focus
+// on business logic. Pass authUser: null to exercise the unauthenticated path.
+export function createSupabaseMock(
+  handler: (op: SupabaseOp) => SupabaseOpResult,
+  options: { authUser?: typeof FAKE_ADMIN_USER | null } = {}
+) {
+  const authUser = options.authUser === undefined ? FAKE_ADMIN_USER : options.authUser;
   function builder(table: string) {
     const op: SupabaseOp = { type: 'select', table, filters: { eq: [], in: [] }, single: false };
 
@@ -61,5 +69,14 @@ export function createSupabaseMock(handler: (op: SupabaseOp) => SupabaseOpResult
     return chain;
   }
 
-  return { from: builder };
+  return {
+    from: builder,
+    auth: {
+      async getUser() {
+        return authUser
+          ? { data: { user: authUser }, error: null }
+          : { data: { user: null }, error: { message: 'not authenticated' } };
+      },
+    },
+  };
 }

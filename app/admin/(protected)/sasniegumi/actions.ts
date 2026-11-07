@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
+import { requireAdmin } from '@/lib/supabase/admin';
 import { uploadToR2, deleteFromR2, newAchievementKey } from '@/lib/r2';
 import { isContentExpired } from '@/lib/content-expiry';
 
@@ -16,6 +17,8 @@ function revalidate() {
 }
 
 export async function createAchievementAction(formData: FormData): Promise<ActionResult> {
+  await requireAdmin();
+
   const title = (formData.get('title') as string | null)?.trim();
   if (!title) return { error: 'Nosaukums ir obligāts.' };
 
@@ -67,6 +70,8 @@ export async function updateAchievementAction(
   formData: FormData,
   oldImageKey: string | null
 ): Promise<ActionResult> {
+  await requireAdmin();
+
   const title = (formData.get('title') as string | null)?.trim();
   if (!title) return { error: 'Nosaukums ir obligāts.' };
 
@@ -125,6 +130,8 @@ export async function deleteAchievementAction(
   id: string,
   imageKey: string | null
 ): Promise<ActionResult> {
+  await requireAdmin();
+
   const supabase = await createClient();
   const { error } = await supabase.from('achievements').delete().eq('id', id);
   if (error) return { error: 'Dzēšana neizdevās.' };
@@ -139,6 +146,8 @@ export async function toggleAchievementPublishAction(
   id: string,
   published: boolean
 ): Promise<ActionResult> {
+  await requireAdmin();
+
   const supabase = await createClient();
   const { error } = await supabase.from('achievements').update({ published }).eq('id', id);
   if (error) return { error: 'Statusa maiņa neizdevās.' };
@@ -148,6 +157,8 @@ export async function toggleAchievementPublishAction(
 }
 
 export async function deleteExpiredAchievementsAction(): Promise<ActionResult> {
+  await requireAdmin();
+
   const supabase = await createClient();
   const { data: all, error: selectError } = await supabase
     .from('achievements')

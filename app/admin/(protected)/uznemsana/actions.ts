@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
+import { requireAdmin } from '@/lib/supabase/admin';
 import { uploadToR2, deleteFromR2, newProgramDocumentKey } from '@/lib/r2';
 import type { ProgramDocumentType } from '@/lib/types';
 
@@ -14,6 +15,8 @@ export async function uploadInstrumentDocumentAction(
   documentType: ProgramDocumentType,
   formData: FormData
 ): Promise<ActionResult> {
+  await requireAdmin();
+
   const file = formData.get('file') as File | null;
 
   if (!file || file.size === 0) return { error: 'Lūdzu izvēlieties PDF failu.' };
@@ -69,6 +72,8 @@ export async function uploadInstrumentDocumentAction(
 }
 
 export async function deleteInstrumentDocumentAction(id: string, fileKey: string): Promise<ActionResult> {
+  await requireAdmin();
+
   const supabase = await createClient();
   const { error } = await supabase.from('program_documents').delete().eq('id', id);
   if (error) return { error: 'Dzēšana neizdevās.' };

@@ -4,8 +4,10 @@ import { newAchievementKey, uploadToR2 } from '@/lib/r2';
 
 const deleteFromR2 = vi.fn(async (key: string) => { void key; });
 const createClient = vi.fn();
+const redirect = vi.fn((path: string) => { throw new Error(`REDIRECT:${path}`); });
 
 vi.mock('next/cache', () => ({ revalidatePath: vi.fn() }));
+vi.mock('next/navigation', () => ({ redirect: (path: string) => redirect(path) }));
 vi.mock('@/lib/supabase/server', () => ({ createClient: () => createClient() }));
 vi.mock('@/lib/r2', () => ({
   uploadToR2: vi.fn(),
@@ -282,5 +284,29 @@ describe('updateAchievementAction', () => {
 
     expect(result.error).toBeUndefined();
     expect(updated?.image_alt).toBeNull();
+  });
+});
+
+describe('requireAdmin enforcement', () => {
+  beforeEach(() => {
+    redirect.mockClear();
+  });
+
+  it('blocks an unauthenticated caller before touching the database', async () => {
+    const dbOp = vi.fn();
+    createClient.mockReturnValue(
+      createSupabaseMock(
+        (op: SupabaseOp) => {
+          dbOp(op);
+          return { error: null };
+        },
+        { authUser: null }
+      )
+    );
+
+    const { deleteAchievementAction } = await import('./actions');
+
+    await expect(deleteAchievementAction('id-1', null)).rejects.toThrow('REDIRECT:/admin/pieslegties');
+    expect(dbOp).not.toHaveBeenCalled();
   });
 });
