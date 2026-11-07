@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter, Manrope } from 'next/font/google';
+import { SITE_URL } from '@/lib/site';
 import './globals.css';
 
 const inter = Inter({
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
   },
   description:
     'Gulbenes Mūzikas Skola — profesionālās ievirzes izglītības iestāde Gulbenē.',
-  metadataBase: new URL('https://gulbenesms.lv'),
+  metadataBase: new URL(SITE_URL),
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
