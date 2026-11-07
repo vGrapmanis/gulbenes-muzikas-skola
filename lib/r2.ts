@@ -6,12 +6,6 @@
 
 import { AwsClient } from 'aws4fetch';
 
-/** Build the public URL for an R2 object key. */
-export function mediaUrl(key: string): string {
-  const base = (process.env.NEXT_PUBLIC_MEDIA_BASE_URL ?? '').replace(/\/$/, '');
-  return `${base}/${key}`;
-}
-
 /** Generate a unique R2 key for a PDF document. */
 export function newDocumentKey(): string {
   return `documents/${crypto.randomUUID()}.pdf`;

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { mediaUrl } from '@/lib/r2';
+import { mediaUrl } from '@/lib/media-url';
 
 export const metadata: Metadata = { title: 'Dokumenti' };
 
