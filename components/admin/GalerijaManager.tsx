@@ -158,7 +158,7 @@ function AlbumCard({ album }: { album: GalleryAlbum }) {
         >
           {album.published ? 'Publicēts' : 'Melnraksts'}
         </span>
-        {isContentExpired(album) && (
+        {album.published && isContentExpired(album) && (
           <span className="absolute top-2 left-2 rounded bg-amber-900/60 px-2 py-0.5 text-xs font-medium text-amber-300">
             Vecāks par {EXPIRY_YEARS} gadiem
           </span>
@@ -219,7 +219,7 @@ export default function GalerijaManager({ albums }: { albums: GalleryAlbum[] }) 
   const [cleanupError, setCleanupError] = useState<string | null>(null);
 
   const visibleAlbums = albums.filter((a) => !removedIds.has(a.id));
-  const expiredAlbums = visibleAlbums.filter((item) => isContentExpired(item));
+  const expiredAlbums = visibleAlbums.filter((item) => item.published && isContentExpired(item));
 
   function handleDeleteExpired() {
     if (

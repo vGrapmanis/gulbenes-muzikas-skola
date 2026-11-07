@@ -228,11 +228,11 @@ export async function deleteExpiredAlbumsAction(): Promise<ActionResult> {
   const supabase = await createClient();
   const { data: all, error: selectError } = await supabase
     .from('gallery_albums')
-    .select('id, event_date, created_at');
+    .select('id, event_date, created_at, published');
 
   if (selectError) return { error: 'Novecojušo albumu meklēšana neizdevās.' };
 
-  const expired = (all ?? []).filter((item) => isContentExpired(item));
+  const expired = (all ?? []).filter((item) => item.published && isContentExpired(item));
   if (expired.length === 0) return {};
 
   for (const album of expired) {

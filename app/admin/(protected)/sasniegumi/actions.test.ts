@@ -31,9 +31,10 @@ function makeFormData(fields: Record<string, unknown>): FormData {
 const NOW = new Date('2026-09-16T12:00:00.000Z');
 
 const ACHIEVEMENTS = [
-  { id: 'fresh-1', image_key: 'achievements/2026/fresh.jpg', event_date: '2026-01-01', created_at: '2026-01-01T00:00:00.000Z' },
-  { id: 'expired-1', image_key: 'achievements/2020/old.jpg', event_date: '2020-01-01', created_at: '2020-01-01T00:00:00.000Z' },
-  { id: 'expired-2', image_key: null, event_date: null, created_at: '2019-06-01T00:00:00.000Z' },
+  { id: 'fresh-1', image_key: 'achievements/2026/fresh.jpg', event_date: '2026-01-01', created_at: '2026-01-01T00:00:00.000Z', published: true },
+  { id: 'expired-1', image_key: 'achievements/2020/old.jpg', event_date: '2020-01-01', created_at: '2020-01-01T00:00:00.000Z', published: true },
+  { id: 'expired-2', image_key: null, event_date: null, created_at: '2019-06-01T00:00:00.000Z', published: true },
+  { id: 'expired-draft', image_key: 'achievements/2019/draft.jpg', event_date: '2019-01-01', created_at: '2019-01-01T00:00:00.000Z', published: false },
 ];
 
 describe('deleteExpiredAchievementsAction', () => {
@@ -69,6 +70,27 @@ describe('deleteExpiredAchievementsAction', () => {
     expect(deletedIds.sort()).toEqual(['expired-1', 'expired-2']);
     expect(deleteFromR2).toHaveBeenCalledTimes(1);
     expect(deleteFromR2).toHaveBeenCalledWith('achievements/2020/old.jpg');
+  });
+
+  it('never deletes an unpublished draft, even with an old event_date', async () => {
+    const deletedIds: unknown[] = [];
+    createClient.mockReturnValue(
+      createSupabaseMock((op: SupabaseOp) => {
+        if (op.table !== 'achievements') throw new Error(`unexpected table ${op.table}`);
+        if (op.type === 'select') return { data: ACHIEVEMENTS, error: null };
+        if (op.type === 'delete') {
+          deletedIds.push(...(op.filters.in[0]?.[1] ?? []));
+          return { error: null };
+        }
+        throw new Error(`unexpected op ${op.type}`);
+      })
+    );
+
+    const { deleteExpiredAchievementsAction } = await import('./actions');
+    await deleteExpiredAchievementsAction();
+
+    expect(deletedIds).not.toContain('expired-draft');
+    expect(deleteFromR2).not.toHaveBeenCalledWith('achievements/2019/draft.jpg');
   });
 
   it('does nothing when no achievements are expired', async () => {

@@ -104,13 +104,17 @@ For home hero, history, admissions, contacts.
 ### Content expiry (Sasniegumi / Galerija, 2 years)
 
 Achievements and gallery albums stop being visible to the public 2 years
-after their effective date (`event_date` if set, otherwise `created_at`).
-This is enforced in the `anon` read RLS policy (see below) — no row is ever
-deleted automatically. The admin panel flags expired rows/albums with a
-"Vecāks par 2 gadiem" badge and offers a manual "Dzēst novecojušos ierakstus"
-bulk action (reusing the normal delete flow: DB row + R2 object cleanup) so
-a human confirms before anything is permanently removed. See migration
-`20260917000001_expire_old_content.sql`.
+after their effective date (`event_date` if set, otherwise `created_at`),
+**provided they are published** — the `anon` read RLS policy ANDs `published`
+and the date check as two separate conditions (see below). No row is ever
+deleted automatically. The admin panel mirrors that same `published &&
+expired` condition: it flags expired rows/albums with a "Vecāks par 2 gadiem"
+badge and offers a manual "Dzēst novecojušos ierakstus" bulk action (reusing
+the normal delete flow: DB row + R2 object cleanup) so a human confirms before
+anything is permanently removed. An unpublished draft with an old
+`event_date` — e.g. historical content backfilled before publishing — is
+never flagged or swept, regardless of age; it only becomes eligible once
+published. See migration `20260917000001_expire_old_content.sql`.
 
 ## Row Level Security (RLS)
 

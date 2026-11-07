@@ -320,7 +320,7 @@ function AchievementRow({ item }: { item: Achievement }) {
             >
               {item.published ? 'Publicēts' : 'Melnraksts'}
             </span>
-            {isContentExpired(item) && (
+            {item.published && isContentExpired(item) && (
               <span className="rounded bg-amber-900/60 px-2 py-0.5 text-xs font-medium text-amber-300">
                 Vecāks par {EXPIRY_YEARS} gadiem
               </span>
@@ -378,7 +378,7 @@ export default function SasniegumiiManager({ items }: { items: Achievement[] }) 
   const [cleanupError, setCleanupError] = useState<string | null>(null);
 
   const visibleItems = items.filter((item) => !removedIds.has(item.id));
-  const expiredItems = visibleItems.filter((item) => isContentExpired(item));
+  const expiredItems = visibleItems.filter((item) => item.published && isContentExpired(item));
 
   const sorted = [...visibleItems].sort(
     (a, b) =>

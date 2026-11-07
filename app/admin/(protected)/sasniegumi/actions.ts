@@ -151,11 +151,11 @@ export async function deleteExpiredAchievementsAction(): Promise<ActionResult> {
   const supabase = await createClient();
   const { data: all, error: selectError } = await supabase
     .from('achievements')
-    .select('id, image_key, event_date, created_at');
+    .select('id, image_key, event_date, created_at, published');
 
   if (selectError) return { error: 'Novecojušo ierakstu meklēšana neizdevās.' };
 
-  const expired = (all ?? []).filter((item) => isContentExpired(item));
+  const expired = (all ?? []).filter((item) => item.published && isContentExpired(item));
   if (expired.length === 0) return {};
 
   const { error: deleteError } = await supabase

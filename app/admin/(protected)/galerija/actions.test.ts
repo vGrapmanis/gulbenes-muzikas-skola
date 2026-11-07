@@ -14,9 +14,10 @@ vi.mock('@/lib/r2', () => ({
 const NOW = new Date('2026-09-16T12:00:00.000Z');
 
 const ALBUMS = [
-  { id: 'fresh-1', event_date: '2026-01-01', created_at: '2026-01-01T00:00:00.000Z' },
-  { id: 'expired-1', event_date: '2020-01-01', created_at: '2020-01-01T00:00:00.000Z' },
-  { id: 'expired-2', event_date: null, created_at: '2019-06-01T00:00:00.000Z' },
+  { id: 'fresh-1', event_date: '2026-01-01', created_at: '2026-01-01T00:00:00.000Z', published: true },
+  { id: 'expired-1', event_date: '2020-01-01', created_at: '2020-01-01T00:00:00.000Z', published: true },
+  { id: 'expired-2', event_date: null, created_at: '2019-06-01T00:00:00.000Z', published: true },
+  { id: 'expired-draft', event_date: '2019-01-01', created_at: '2019-01-01T00:00:00.000Z', published: false },
 ];
 
 const ALBUM_COVERS: Record<string, string | null> = {
@@ -96,6 +97,16 @@ describe('deleteExpiredAlbumsAction', () => {
     await deleteExpiredAlbumsAction();
 
     expect(deletedAlbumIds).not.toContain('fresh-1');
+  });
+
+  it('never deletes an unpublished draft, even with an old event_date', async () => {
+    const { handler, deletedAlbumIds } = makeGalleryHandler();
+    createClient.mockReturnValue(createSupabaseMock(handler));
+
+    const { deleteExpiredAlbumsAction } = await import('./actions');
+    await deleteExpiredAlbumsAction();
+
+    expect(deletedAlbumIds).not.toContain('expired-draft');
   });
 
   it('does nothing when no albums are expired', async () => {
