@@ -54,10 +54,11 @@ centered, single-screen hero on a **near-black** background, top to bottom:
 ## 4. Sasniegumi — `/sasniegumi`
 
 - **Purpose:** students' competition successes — photo + description.
-- **Data:** `achievements` table — photo (R2), title, student name, competition,
-  result (e.g. "1. vieta"), date, description.
-- **UI:** card grid (photo + result + student + short text), newest first; optional
-  detail page. Make the result/placement visually prominent.
+- **Data:** `achievements` table — photo (R2), title, event date, description,
+  teacher_note (optional). No structured student/competition/result fields —
+  that detail goes in the free-text title/description.
+- **UI:** featured card (newest) + grid of the rest (photo + title + date),
+  newest first; each links to a detail page with the full description.
 - **Accessibility:** alt text (`image_alt`) is required whenever a photo is
   attached — the admin form blocks saving without it, and public pages render
   it as the image's `alt` attribute. See `docs/accessibility.md`.

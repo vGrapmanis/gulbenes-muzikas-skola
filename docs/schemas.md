@@ -47,10 +47,8 @@ For home hero, history, admissions, contacts.
 | ------------ | ---- | -------------------------------------- |
 | id           | uuid |                                        |
 | title        | text | required                               |
-| student_name | text | required                               |
-| competition  | text | optional                               |
-| result       | text | e.g. "1. vieta", "Laureāts"            |
 | description  | text | markdown                               |
+| teacher_note | text | optional, internal-style note shown with the result |
 | event_date   | date | optional                               |
 | image_key    | text | R2 key (optional but recommended)      |
 | image_alt    | text | Latvian alt text (required if image)   |

@@ -40,8 +40,7 @@ deferred with the school's sign-off).
 - [ ] At least a few current/upcoming concert & event posters (image + title + date).
 
 ### Sasniegumi
-- [ ] A set of recent competition results (photo, student, competition, result,
-      short description).
+- [ ] A set of recent competition results (photo, title, date, short description).
 
 ### Galerija
 - [ ] A few starter albums (title, date, cover, images with Latvian alt text).

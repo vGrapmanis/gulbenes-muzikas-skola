@@ -16,7 +16,6 @@ export type Database = {
     Tables: {
       achievements: {
         Row: {
-          competition: string | null
           created_at: string
           description: string | null
           display_order: number
@@ -25,14 +24,11 @@ export type Database = {
           image_alt: string | null
           image_key: string | null
           published: boolean
-          result: string | null
-          student_name: string
           teacher_note: string | null
           title: string
           updated_at: string
         }
         Insert: {
-          competition?: string | null
           created_at?: string
           description?: string | null
           display_order?: number
@@ -41,14 +37,11 @@ export type Database = {
           image_alt?: string | null
           image_key?: string | null
           published?: boolean
-          result?: string | null
-          student_name: string
           teacher_note?: string | null
           title: string
           updated_at?: string
         }
         Update: {
-          competition?: string | null
           created_at?: string
           description?: string | null
           display_order?: number
@@ -57,8 +50,6 @@ export type Database = {
           image_alt?: string | null
           image_key?: string | null
           published?: boolean
-          result?: string | null
-          student_name?: string
           teacher_note?: string | null
           title?: string
           updated_at?: string

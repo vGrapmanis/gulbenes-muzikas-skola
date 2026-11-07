@@ -45,7 +45,6 @@ export async function createAchievementAction(formData: FormData): Promise<Actio
   const supabase = await createClient();
   const { error } = await supabase.from('achievements').insert({
     title,
-    student_name: '',
     event_date: (formData.get('event_date') as string | null)?.trim() || null,
     description: (formData.get('description') as string | null)?.trim() || null,
     teacher_note: (formData.get('teacher_note') as string | null)?.trim() || null,
