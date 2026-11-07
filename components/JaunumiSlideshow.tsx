@@ -4,15 +4,14 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { mediaUrl } from '@/lib/media-url';
 import type { NewsItem } from '@/lib/types';
 
-// `body` stores the portrait poster R2 key (schema cache workaround).
-type Poster = Pick<NewsItem, 'id' | 'poster_key' | 'poster_alt' | 'body'>;
+type Poster = Pick<NewsItem, 'id' | 'poster_key' | 'poster_alt' | 'poster_portrait_key'>;
 
 function PosterImage({ item }: { item: Poster }) {
   return (
     <picture>
       <source media="(min-width: 768px)" srcSet={mediaUrl(item.poster_key)} />
       <img
-        src={mediaUrl(item.body ?? item.poster_key)}
+        src={mediaUrl(item.poster_portrait_key ?? item.poster_key)}
         alt={item.poster_alt}
         className="mx-auto max-h-[80vh] w-full object-contain"
         draggable={false}

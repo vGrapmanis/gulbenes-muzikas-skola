@@ -348,30 +348,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      create_news_item: {
-        Args: {
-          p_title: string
-          p_slug: string
-          p_event_date: string
-          p_poster_key: string
-          p_poster_alt: string
-          p_poster_portrait_key: string
-          p_poster_portrait_alt: string
-        }
-        Returns: undefined
-      }
-      update_news_item: {
-        Args: {
-          p_id: string
-          p_title: string
-          p_event_date: string
-          p_poster_key: string
-          p_poster_alt: string
-          p_poster_portrait_key: string | null
-          p_poster_portrait_alt: string | null
-        }
-        Returns: undefined
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never

@@ -133,7 +133,7 @@ function EditForm({ item, onCancel }: { item: NewsItem; onCancel: () => void }) 
         item.id,
         fd,
         item.poster_key,
-        item.body, // portrait key stored in body
+        item.poster_portrait_key,
       );
       if (result.error) setError(result.error);
       else onCancel();
@@ -199,9 +199,9 @@ function EditForm({ item, onCancel }: { item: NewsItem; onCancel: () => void }) 
           Plakāts — mobilajam (portreta){' '}
           <span className="text-xs text-gray-500">(atstājiet tukšu, lai saglabātu esošo)</span>
         </label>
-        {item.body && (
+        {item.poster_portrait_key && (
           <img
-            src={mediaUrl(item.body)}
+            src={mediaUrl(item.poster_portrait_key)}
             alt=""
             className="mb-2 h-20 w-auto rounded border border-gray-700 object-cover"
           />
@@ -244,7 +244,7 @@ function NewsRow({ item }: { item: NewsItem }) {
   function handleDelete() {
     if (!confirm(`Dzēst pasākumu "${item.title}"?`)) return;
     startTransition(async () => {
-      const result = await deleteNewsAction(item.id, item.poster_key, item.body);
+      const result = await deleteNewsAction(item.id, item.poster_key, item.poster_portrait_key);
       if (!result.error) setGone(true);
     });
   }
@@ -282,7 +282,7 @@ function NewsRow({ item }: { item: NewsItem }) {
           {item.event_date && (
             <p className="mt-0.5 text-sm text-gray-400">Pasākums: {item.event_date}</p>
           )}
-          {!item.body && (
+          {!item.poster_portrait_key && (
             <p className="mt-0.5 text-xs text-amber-400">Trūkst portreta plakāts</p>
           )}
         </div>

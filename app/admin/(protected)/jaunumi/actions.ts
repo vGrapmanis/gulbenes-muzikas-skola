@@ -1,10 +1,5 @@
 'use server';
 
-// NOTE: The news table has poster_portrait_key / poster_portrait_alt columns
-// that were added via migration, but Supabase's PostgREST schema cache has not
-// picked them up. Until a project restart refreshes the cache, we store the
-// portrait poster R2 key in the `body` column (unused for poster-only Jaunumi).
-
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { uploadToR2, deleteFromR2, newNewsKey } from '@/lib/r2';
@@ -80,7 +75,8 @@ export async function createNewsAction(formData: FormData): Promise<ActionResult
     event_date: eventDate,
     poster_key: landscapeResult.key,
     poster_alt: title,
-    body: portraitResult.key, // portrait poster key stored here until schema cache refreshes
+    poster_portrait_key: portraitResult.key,
+    poster_portrait_alt: title,
     published: false,
   });
 
@@ -135,8 +131,9 @@ export async function updateNewsAction(
       title,
       event_date: eventDate,
       poster_alt: title,
+      poster_portrait_alt: title,
       ...(newLandscapeKey ? { poster_key: newLandscapeKey } : {}),
-      ...(newPortraitKey ? { body: newPortraitKey } : {}),
+      ...(newPortraitKey ? { poster_portrait_key: newPortraitKey } : {}),
     })
     .eq('id', id);
 

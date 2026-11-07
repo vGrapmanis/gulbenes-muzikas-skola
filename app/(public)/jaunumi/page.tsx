@@ -9,7 +9,7 @@ export default async function JaunumiPage() {
   const supabase = await createClient();
   const { data } = await supabase
     .from('news')
-    .select('id, poster_key, poster_alt, body, event_date')
+    .select('id, poster_key, poster_alt, poster_portrait_key, event_date')
     .eq('published', true)
     .gte('event_date', today)
     .order('event_date', { ascending: true });
