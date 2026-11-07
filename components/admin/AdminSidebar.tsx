@@ -6,7 +6,6 @@ import { logoutAction } from '@/app/admin/actions';
 
 const LINKS = [
   { label: 'Vadības panelis', href: '/admin' },
-  { label: 'Absolventi',      href: '/admin/absolventi' },
   { label: 'Jaunumi',         href: '/admin/jaunumi' },
   { label: 'Sasniegumi',      href: '/admin/sasniegumi' },
   { label: 'Galerija',        href: '/admin/galerija' },

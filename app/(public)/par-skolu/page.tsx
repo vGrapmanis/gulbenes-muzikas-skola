@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
@@ -142,16 +141,6 @@ function StaticHistory() {
         </div>
       </section>
 
-      {/* Link to Absolventi */}
-      <div className="border-t border-gray-200 pt-8">
-        <Link
-          href="/absolventi"
-          className="inline-flex items-center gap-2 bg-ink text-paper font-heading font-bold text-scale-base px-6 py-3 rounded-full hover:bg-gray-900 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
-        >
-          Skatīt absolventus
-          <span aria-hidden="true">→</span>
-        </Link>
-      </div>
     </div>
   );
 }
@@ -185,20 +174,6 @@ export default async function ParSkoluPage() {
             Gulbenes Mūzikas skola darbojas kopš 1959. gada, nesot mūzikas izglītību
             Gulbenes novadam jau vairāk nekā 65 gadus.
           </p>
-          <nav className="flex gap-6 mt-8" aria-label="Par skolu sadaļas">
-            <span
-              className="font-heading font-bold text-scale-base text-ink border-b-2 border-ink pb-1"
-              aria-current="page"
-            >
-              Vēsture
-            </span>
-            <Link
-              href="/absolventi"
-              className="font-heading text-scale-base text-gray-500 hover:text-ink transition-colors pb-1 border-b-2 border-transparent hover:border-gray-300"
-            >
-              Absolventi
-            </Link>
-          </nav>
         </div>
       </section>
 

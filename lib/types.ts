@@ -5,8 +5,6 @@ import type { Database } from '@/lib/database.types';
 type Tables = Database['public']['Tables'];
 
 export type Page           = Tables['pages']['Row'];
-export type Graduate       = Tables['graduates']['Row'];
-export type GraduateClass  = Tables['graduate_classes']['Row'];
 export type NewsItem       = Tables['news']['Row'];
 export type Achievement    = Tables['achievements']['Row'];
 export type GalleryAlbum   = Tables['gallery_albums']['Row'];

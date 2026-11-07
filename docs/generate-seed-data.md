@@ -20,8 +20,6 @@ the school provides real content. **Dev/staging only — never seed production.*
 - **pages:** home hero (with the Ojārs Vācietis motto), about_history (a few
   paragraphs), admissions, contacts (address O. Kalpaka iela 43, Gulbene, LV-4401;
   phone +371 64471659; sample bank requisites).
-- **graduates:** ~3 years × several names each (with a couple of programs/teachers),
-  to exercise the year-grouped cards.
 - **news:** ~6 items with placeholder posters + dates; mix of published and draft to
   test visibility.
 - **achievements:** ~5 items (student, competition, result like "1. vieta",

@@ -4,13 +4,14 @@ Eight public sections. Routes use Latvian slugs. Each spec lists: route, data
 source, what's static vs. admin-managed, and key UI notes. Data tables are defined
 in `docs/schemas.md`; admin flows in `docs/admin.md`.
 
-Navigation order (header), preserving the old site's dropdown style (white,
-uppercase, letter-spaced, on the dark header):
-`PAR SKOLU ▾ (Vēsture, Absolventi) · JAUNUMI · SASNIEGUMI · GALERIJA · UZŅEMŠANA · DOKUMENTI · KONTAKTI`
+Navigation order (header), preserving the old site's style (white, uppercase,
+letter-spaced, on the dark header):
+`PAR SKOLU · JAUNUMI · SASNIEGUMI · GALERIJA · UZŅEMŠANA · DOKUMENTI · KONTAKTI`
 
 Home (`/`) is reached via the logo in the top-left — no separate nav link.
 
-One dropdown ("Par skolu") groups Vēsture and Absolventi. All other sections are direct top-level links. Routes remain flat (`/uznemsana`, `/dokumenti`, etc.).
+All sections are direct top-level links. Routes remain flat (`/uznemsana`,
+`/dokumenti`, etc.).
 
 ---
 
@@ -20,8 +21,7 @@ Replicate the old home page's look (confirmed from the school's screenshot). One
 centered, single-screen hero on a **near-black** background, top to bottom:
 
 - **Header** (shared site-wide, sticky): light horizontal logo lockup top-left;
-  right-aligned uppercase white nav with the two dropdowns (see navigation above);
-  hamburger on mobile.
+  right-aligned uppercase white nav (see navigation above); hamburger on mobile.
 - **Title:** centered, white, bold, uppercase — "GULBENES MŪZIKAS SKOLA".
 - **Piano-keys graphic:** the decorative grayscale 3D piano-key fan
   (`/public/brand/piano-keys.svg`), centered, large, directly under the title.
@@ -40,18 +40,8 @@ centered, single-screen hero on a **near-black** background, top to bottom:
 
 ## 2. Par skolu — `/par-skolu`
 
-Two subsections on one page (or `/par-skolu` + `/par-skolu/absolventi`):
-
 ### Vēsture (History)
 - **Data:** `pages` table (`slug = 'about_history'`), rich text/markdown, admin-editable.
-
-### Absolventi (Graduates)
-- **Data:** `graduates` table. **Cards grouped by year**, each card lists that
-  year's graduates (name, optional program/instrument, optional teacher).
-- **UI:** newest year first; year is the card heading; within a card, an
-  alphabetical or admin-ordered list of names. Consider a year filter if many.
-- Admin adds graduates one at a time (year + name + optional fields); the page
-  groups them into cards automatically.
 
 ## 3. Jaunumi — `/jaunumi`
 
@@ -134,6 +124,6 @@ workflow).
 
 ## Empty states
 
-Every list (news, achievements, albums, graduates, documents) must render a
+Every list (news, achievements, albums, documents) must render a
 friendly Latvian empty state when there is no published content yet — never a
 blank page or an error.

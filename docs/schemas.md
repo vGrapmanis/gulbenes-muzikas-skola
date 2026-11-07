@@ -26,20 +26,6 @@ For home hero, history, admissions, contacts.
 | body        | text        | markdown / rich text                             |
 | updated_at  | timestamptz |                                                  |
 
-### `graduates` — Absolventi
-One row per graduate; the UI groups by `year` into cards.
-
-| column        | type | notes                                  |
-| ------------- | ---- | -------------------------------------- |
-| id            | uuid |                                        |
-| year          | int  | graduation year (card grouping key)    |
-| full_name     | text | required                               |
-| program       | text | optional (e.g. "Klavierspēle")         |
-| teacher       | text | optional                               |
-| display_order | int  | order within the year                  |
-| published     | bool |                                        |
-| created_at    | timestamptz |                                 |
-
 ### `news` — Jaunumi (posters)
 
 | column      | type | notes                                   |
@@ -133,7 +119,6 @@ Single-admin model: any authenticated user is the admin. Enable RLS on every tab
 ```sql
 -- enable on all content tables
 alter table pages           enable row level security;
-alter table graduates       enable row level security;
 alter table news            enable row level security;
 alter table achievements    enable row level security;
 alter table gallery_albums  enable row level security;
@@ -144,9 +129,6 @@ alter table documents       enable row level security;
 -- (pages are always readable)
 create policy "public read pages"
   on pages for select to anon, authenticated using (true);
-
-create policy "public read published graduates"
-  on graduates for select to anon, authenticated using (published);
 
 create policy "public read published news"
   on news for select to anon, authenticated using (published);
@@ -176,7 +158,7 @@ create policy "public read published documents"
 create policy "admin insert news" on news for insert to authenticated with check (true);
 create policy "admin update news" on news for update to authenticated using (true) with check (true);
 create policy "admin delete news" on news for delete to authenticated using (true);
--- … same for pages, graduates, achievements, gallery_albums, gallery_images, documents
+-- … same for pages, achievements, gallery_albums, gallery_images, documents
 ```
 
 > The `anon` key is safe to expose in the browser **because** RLS limits it to

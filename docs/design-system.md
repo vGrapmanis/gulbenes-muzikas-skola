@@ -129,7 +129,7 @@ Usage rules:
 ## Components (minimum set)
 
 Header/nav (sticky, mobile hamburger), footer, hero, section wrapper (light/dark
-variants), card (used for graduates, news, achievements, album covers),
+variants), card (used for news, achievements, album covers),
 album lightbox/grid, document list row (view + download), breadcrumb, button
 (primary/secondary/ghost), tag/badge, pagination, cookie-consent banner, and the
 admin form primitives. Keep them in `components/`, documented and reused — do not

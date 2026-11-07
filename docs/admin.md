@@ -29,7 +29,6 @@ Latvian and should be self-explanatory.
 | Section        | Create | Edit | Delete | Publish toggle |
 | -------------- | :----: | :--: | :----: | :------------: |
 | Pages (texts)  |   —    |  ✅  |   —    |       —        |
-| Absolventi     |  ✅   |  ✅  |  ✅   |      ✅        |
 | Jaunumi        |  ✅   |  ✅  |  ✅   |      ✅        |
 | Sasniegumi     |  ✅   |  ✅  |  ✅   |      ✅        |
 | Galerija (album)| ✅   |  ✅  |  ✅   |      ✅        |
@@ -45,7 +44,6 @@ exist and are always shown.
 /admin                      dashboard: counts + quick links + recent items
 /admin/pieslegties          login
 /admin/lapas                edit page texts (home hero, history, admissions, contacts)
-/admin/absolventi           list + add/edit graduates (grouped by year)
 /admin/jaunumi              list + add/edit news (poster upload)
 /admin/sasniegumi           list + add/edit achievements (photo upload)
 /admin/galerija             list albums → /admin/galerija/[id] manage images
@@ -62,11 +60,6 @@ exist and are always shown.
    insert/update the row with the R2 key + admin-provided **alt text** (required
    for content images) → `revalidatePath` the affected public route.
 4. Show success/error in Latvian; never lose the admin's input on error.
-
-### Graduates
-- Add one graduate at a time: **gads** (year), **vārds uzvārds**, optional
-  **programma** and **pedagogs**. The public page groups by year into cards.
-- Offer a "kopēt no iepriekšējā gada" convenience only if it's genuinely useful.
 
 ### Gallery
 - Create the **album** first (title, date, cover). Then open the album and

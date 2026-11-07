@@ -30,7 +30,6 @@ axe on PRs touching the relevant areas and on `main`.
 - [ ] **Jaunumi:** grid + detail, newest first, pagination, posters load with alt.
 - [ ] **Sasniegumi:** cards show result/student/description + photo; detail works.
 - [ ] **Galerija:** album list → album grid → lightbox (keyboard + screen reader).
-- [ ] **Absolventi:** graduates grouped into correct year cards, ordered.
 - [ ] **Dokumenti:** "Skatīt" opens PDF in new tab; "Lejupielādēt" downloads; grouped
       by category.
 - [ ] **Uzņemšana / Vēsture / Kontakti:** editable text renders; Kontakti has **no

@@ -33,17 +33,6 @@ export function newNewsKey(mime: string): string {
   return `news/${year}/${crypto.randomUUID()}.${ext[mime] ?? 'jpg'}`;
 }
 
-/** Generate a unique R2 key for a graduate class photo. */
-export function newGraduateClassKey(mime: string): string {
-  const ext: Record<string, string> = {
-    'image/jpeg': 'jpg',
-    'image/png': 'png',
-    'image/webp': 'webp',
-  };
-  const year = new Date().getFullYear();
-  return `graduate-classes/${year}/${crypto.randomUUID()}.${ext[mime] ?? 'jpg'}`;
-}
-
 /** Generate a unique R2 key for an achievement image. */
 export function newAchievementKey(mime: string): string {
   const ext: Record<string, string> = {

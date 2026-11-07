@@ -75,7 +75,7 @@ Rationale and alternatives live in `docs/architecture.md`.
 1. **Home** (`/`) — replicate the old home (layout confirmed from the school's
    screenshot): near-black hero with centered title + piano-key fan graphic + the
    Ojārs Vācietis motto, and subtle decorative gradient edge bars. See `docs/sections.md`.
-2. **Par skolu** (About) — Vēsture (text) + Absolventi (cards per year).
+2. **Par skolu** (About) — Vēsture (text).
 3. **Jaunumi** (News) — concert/event posters.
 4. **Sasniegumi** (Achievements) — competition results, photo + description.
    Auto-expires from public view 2 years after posting.
@@ -89,9 +89,9 @@ Full per-section spec: `docs/sections.md`.
 
 ## 6. Admin
 
-A single shared admin login can create/edit/delete: graduate cards, news,
-achievements, gallery albums + images, documents, and the editable text pages
-(history, admissions, contacts, home hero). Spec: `docs/admin.md`.
+A single shared admin login can create/edit/delete: news, achievements, gallery
+albums + images, documents, and the editable text pages (history, admissions,
+contacts, home hero). Spec: `docs/admin.md`.
 
 ## 7. Repository map
 

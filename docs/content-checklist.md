@@ -36,10 +36,6 @@ deferred with the school's sign-off).
 - [ ] History text (Latvian). Founded 1959; founder Gulbenes novada dome; programs
       offered; collectives; key milestones.
 
-### Par skolu — Absolventi
-- [ ] Graduate lists per year (year, names, optional program/teacher). Decide how
-      many years back to include.
-
 ### Jaunumi
 - [ ] At least a few current/upcoming concert & event posters (image + title + date).
 

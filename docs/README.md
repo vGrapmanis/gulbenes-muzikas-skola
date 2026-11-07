@@ -1,8 +1,7 @@
 # Gulbenes Mūzikas skola — website
 
 Public website for Gulbenes Mūzikas skola (Gulbene Music School, Latvia), with a
-single-admin content panel for news, achievements, galleries, graduates, and
-documents.
+single-admin content panel for news, achievements, galleries, and documents.
 
 > **For Claude Code / AI agents:** start with [`CLAUDE.md`](./CLAUDE.md), then the
 > relevant file in [`docs/`](./docs).
