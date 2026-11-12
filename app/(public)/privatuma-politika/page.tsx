@@ -46,12 +46,6 @@ export default function PrivatumaPolitikaPage() {
         Privātuma politika
       </h1>
 
-      <p className="max-w-3xl text-scale-sm text-gray-700 leading-body border-l-4 border-gray-300 pl-4">
-        Šajā lapā atzīmētās vietas (<Placeholder>JĀPĀRBAUDA SKOLAI</Placeholder>)
-        gaida skolas apstiprinājumu pirms vietnes publiskošanas. Šis teksts ir
-        sagatave izskatīšanai, nevis juridisks padoms.
-      </p>
-
       <div className="max-w-3xl divide-y divide-gray-300">
         <Section id="parzinis" number={1} title="Pārzinis un kontaktinformācija">
           <p>
@@ -75,12 +69,6 @@ export default function PrivatumaPolitikaPage() {
               +371 64471661
             </a>
             .
-          </p>
-          <p>
-            <Placeholder>
-              JĀPĀRBAUDA SKOLAI: datu aizsardzības speciālista kontakti, ja
-              tāds ir norīkots
-            </Placeholder>
           </p>
         </Section>
 
@@ -108,12 +96,6 @@ export default function PrivatumaPolitikaPage() {
             darbībai, un tā netiek izmantota izsekošanai.
           </p>
           <p>
-            Šobrīd vietne neizmanto analītikas vai izsekošanas rīkus.{' '}
-            <Placeholder>
-              JĀPĀRBAUDA SKOLAI: ja tas mainās, šī sadaļa jāpapildina
-            </Placeholder>
-          </p>
-          <p>
             Savu izvēli var mainīt, dzēšot pārlūkprogrammas saglabātos vietnes
             datus un no jauna ielādējot lapu — tad sīkdatņu piekrišanas
             paziņojums parādīsies atkārtoti.
@@ -126,8 +108,8 @@ export default function PrivatumaPolitikaPage() {
             apstrādātāji:
           </p>
           <ul className="list-disc pl-6 space-y-1">
-            <li>Cloudflare — vietnes mitināšana un failu glabāšana (Workers, R2).</li>
-            <li>Supabase — datubāze un administratora autentifikācija (ES/Frankfurtes reģions).</li>
+            <li>Cloudflare — vietnes mitināšana un failu glabāšana.</li>
+            <li>Supabase — datubāze un administratora autentifikācija.</li>
           </ul>
           <p>Dati netiek nodoti ārpus Eiropas Savienības/EEZ.</p>
         </Section>
@@ -136,14 +118,7 @@ export default function PrivatumaPolitikaPage() {
           <p>
             Sasniegumu un galerijas ieraksti pēc noklusējuma tiek rādīti
             publiski 2 gadus no publicēšanas datuma, pēc tam tie tiek
-            automātiski noņemti no publiskās skatīšanās (bez dzēšanas no
-            datubāzes).
-          </p>
-          <p>
-            <Placeholder>
-              JĀPĀRBAUDA SKOLAI: apstiprināt citus glabāšanas termiņus
-              (piemēram, tehniskajiem žurnāliem)
-            </Placeholder>
+            automātiski noņemti no publiskās piekļuves.
           </p>
         </Section>
 
@@ -163,12 +138,6 @@ export default function PrivatumaPolitikaPage() {
             jums ir tiesības iesniegt sūdzību Datu valsts inspekcijā
             (www.dvi.gov.lv).
           </p>
-          <p>
-            <Placeholder>
-              JĀPĀRBAUDA SKOLAI: Datu valsts inspekcijas pašreizējā adrese un
-              tālrunis
-            </Placeholder>
-          </p>
         </Section>
 
         <Section
@@ -186,8 +155,7 @@ export default function PrivatumaPolitikaPage() {
 
         <Section id="izmainas" number={9} title="Izmaiņas šajā politikā">
           <p>
-            Šī politika pēdējoreiz atjaunota{' '}
-            <Placeholder>JĀPĀRBAUDA SKOLAI/ATJAUNOT: datums</Placeholder>.
+            Šī politika pēdējoreiz atjaunota 13.11.2026
             Izmaiņas tiks publicētas šajā lapā, atjauninot norādīto datumu.
           </p>
         </Section>
