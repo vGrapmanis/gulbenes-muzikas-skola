@@ -16,12 +16,6 @@ export default function Footer() {
           </p>
           <nav aria-label="Juridiskā informācija" className="flex items-center gap-4">
             <Link
-              href="/pieejamiba"
-              className="hover:text-gray-500 transition-colors focus-visible:underline"
-            >
-              Pieejamības paziņojums
-            </Link>
-            <Link
               href="/privatuma-politika"
               className="hover:text-gray-500 transition-colors focus-visible:underline"
             >

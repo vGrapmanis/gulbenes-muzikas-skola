@@ -15,10 +15,10 @@ deferred with the school's sign-off).
 - [ ] **Exact contact details & bank requisites** — confirm current and correct.
 - [ ] **Who controls `gulbenesms.lv` DNS** — needed for the cutover and the R2
       media subdomain. (See `docs/deployment.md`.)
-- [ ] **Accessibility statement details** — page now published at `/pieejamiba`
-      with the known facts filled in; the responsible oversight body, exact
-      statement date, and the full inaccessible-content list are still marked
-      `[JĀPĀRBAUDA SKOLAI: ...]` on the page and need school confirmation.
+- [ ] **Accessibility statement details** — the `/pieejamiba` page was removed
+      (2026-11-13) because the school has not supplied the information. Rebuild
+      it from the template in `docs/accessibility.md` once the oversight body,
+      statement date, and inaccessible-content list are provided.
 - [ ] **Privacy policy inputs** — page now published at `/privatuma-politika`
       with controller identity, processors (Supabase EU, Cloudflare), and
       cookie/retention facts filled in; DPO contact, exact retention periods,
@@ -67,8 +67,8 @@ deferred with the school's sign-off).
       "Noraidīt" (decline) option alongside "Piekrist", per `docs/accessibility.md`.
 - [ ] Privacy policy page (Latvian) — drafted at `/privatuma-politika`;
       placeholders still need school/legal review before launch.
-- [ ] Accessibility statement page (Latvian) — drafted at `/pieejamiba`;
-      placeholders still need school confirmation before launch.
+- [ ] Accessibility statement page (Latvian) — not built yet; waiting on school
+      info (see above). Template in `docs/accessibility.md`.
 - [ ] 404 and error pages (Latvian, on-brand).
 - [ ] Favicon + social share (OG) image.
 - [ ] Every content image has meaningful Latvian alt text.

@@ -160,17 +160,6 @@ export default function PrivatumaPolitikaPage() {
           </p>
         </Section>
       </div>
-
-      <p className="max-w-3xl mt-10 text-scale-sm text-gray-700">
-        Skatiet arī:{' '}
-        <Link
-          href="/pieejamiba"
-          className="underline underline-offset-2 hover:text-gray-500 transition-colors"
-        >
-          Pieejamības paziņojumu
-        </Link>
-        .
-      </p>
     </div>
   );
 }

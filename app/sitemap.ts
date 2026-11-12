@@ -13,7 +13,6 @@ const STATIC_PATHS = [
   '/dokumenti',
   '/kontakti',
   '/privatuma-politika',
-  '/pieejamiba',
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
