@@ -20,15 +20,14 @@ function Lightbox({
 }) {
   const closeRef = useRef<HTMLButtonElement>(null);
   const touchStartX = useRef<number | null>(null);
-  const [imgLoaded, setImgLoaded] = useState(false);
+  // Tracks which index has finished loading, so changing image resets it
+  const [loadedIndex, setLoadedIndex] = useState<number | null>(null);
+  const imgLoaded = loadedIndex === index;
   const count = images.length;
   const current = images[index];
 
   const prev = useCallback(() => onChange(Math.max(0, index - 1)), [index, onChange]);
   const next = useCallback(() => onChange(Math.min(count - 1, index + 1)), [index, count, onChange]);
-
-  // Reset loading state when image changes
-  useEffect(() => { setImgLoaded(false); }, [index]);
 
   // Lock scroll + focus close button
   useEffect(() => {
@@ -133,7 +132,7 @@ function Lightbox({
           key={current.src}
           src={current.src}
           alt={current.alt}
-          onLoad={() => setImgLoaded(true)}
+          onLoad={() => setLoadedIndex(index)}
           className={`max-h-[88vh] max-w-full object-contain transition-opacity duration-200 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
           draggable={false}
         />

@@ -1,28 +1,35 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 
 const STORAGE_KEY = 'gms_cookie_consent';
 
-export default function CookieBanner() {
-  const [visible, setVisible] = useState(false);
+function subscribe(onChange: () => void) {
+  window.addEventListener('storage', onChange);
+  return () => window.removeEventListener('storage', onChange);
+}
 
-  useEffect(() => {
-    if (!localStorage.getItem(STORAGE_KEY)) setVisible(true);
-  }, []);
+export default function CookieBanner() {
+  // Server snapshot is "has choice" so the banner never flashes during SSR
+  const hasChoice = useSyncExternalStore(
+    subscribe,
+    () => localStorage.getItem(STORAGE_KEY) !== null,
+    () => true,
+  );
+  const [dismissed, setDismissed] = useState(false);
 
   function accept() {
     localStorage.setItem(STORAGE_KEY, 'accepted');
-    setVisible(false);
+    setDismissed(true);
   }
 
   function decline() {
     localStorage.setItem(STORAGE_KEY, 'declined');
-    setVisible(false);
+    setDismissed(true);
   }
 
-  if (!visible) return null;
+  if (hasChoice || dismissed) return null;
 
   return (
     <div
