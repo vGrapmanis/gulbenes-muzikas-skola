@@ -47,6 +47,37 @@ Add scripts to `package.json`:
   "deploy":  "opennextjs-cloudflare build && wrangler deploy"
 }
 ```
+Keep `build` as plain `next build`: `opennextjs-cloudflare build` calls
+`pnpm build` internally, so pointing `build` at it would recurse. Locally, run
+the deploy script as `pnpm run deploy` — bare `pnpm deploy` is a built-in pnpm
+command and does not run our script.
+
+### 4. Cloudflare Workers Builds (dashboard)
+The Worker is connected to the Git repo and built by Cloudflare. In
+**Workers & Pages → `gulbenes-muzikas-skola` → Settings → Build**:
+
+| Setting        | Value                                     |
+| -------------- | ----------------------------------------- |
+| Build command  | `pnpm exec opennextjs-cloudflare build`   |
+| Deploy command | `pnpm exec opennextjs-cloudflare deploy`  |
+
+Do **not** use `pnpm run build` as the build command: it only runs `next build`
+and never produces `.open-next/worker.js`, so the deploy step fails because
+`wrangler.jsonc` points `main` at that file. The pnpm version comes from the
+`packageManager` field in `package.json`.
+
+Under **Settings → Build → Build variables and secrets** add the `NEXT_PUBLIC_*`
+values. Next.js inlines them into the bundle at build time, so if they are
+missing the site builds without a Supabase connection:
+
+| Variable                        | Value                                   |
+| ------------------------------- | --------------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`      | Supabase Project URL                    |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase `anon` key (mark as secret)    |
+| `NEXT_PUBLIC_MEDIA_BASE_URL`    | `https://media.gulbenesms.lv`           |
+
+The `R2_*` keys from `.env.example` are for local dev only; the deployed Worker
+uses the `MEDIA` R2 binding.
 
 ## Environment variables / secrets
 
