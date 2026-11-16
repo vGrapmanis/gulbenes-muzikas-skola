@@ -119,7 +119,11 @@ Plan with whoever controls `gulbenesms.lv` DNS:
 2. Get school sign-off (content, design, accessibility, QA, legal pages).
 3. Pre-create `media.gulbenesms.lv` (R2) ahead of cutover.
 4. Lower DNS TTL a day before cutover.
-5. Point the apex/`www` record to the Worker (Cloudflare route / custom domain).
+5. Point the apex/`www` record to the Worker. This is declared in `wrangler.jsonc`
+   as `routes` with `custom_domain: true` for `gulbenesms.lv` and
+   `www.gulbenesms.lv`, so each deploy creates/keeps the DNS record and
+   certificate. Remove any existing apex/`www` A/AAAA/CNAME record first or the
+   deploy fails. `env.preview` sets `routes: []` so preview never claims them.
 6. Verify HTTPS, all 8 sections, admin login, an upload, and the legal pages on the
    live domain.
 7. Set up redirects from any old WordPress URLs that have inbound links

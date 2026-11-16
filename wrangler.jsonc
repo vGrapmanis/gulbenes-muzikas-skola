@@ -4,6 +4,11 @@
   // Keep in sync with opennextjs/cloudflare docs
   "compatibility_date": "2025-03-01",
   "compatibility_flags": ["nodejs_compat"],
+  // Custom domains are declared here so every deploy keeps them attached.
+  "routes": [
+    { "pattern": "gulbenesms.lv", "custom_domain": true },
+    { "pattern": "www.gulbenesms.lv", "custom_domain": true }
+  ],
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
@@ -16,6 +21,8 @@
   ],
   "env": {
     "preview": {
+      // Never claim the production domains from the preview Worker.
+      "routes": [],
       "r2_buckets": [
         {
           "binding": "MEDIA",
