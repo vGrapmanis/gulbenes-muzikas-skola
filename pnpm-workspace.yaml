@@ -3,3 +3,7 @@ allowBuilds:
   sharp: true
   unrs-resolver: true
   workerd: true
+
+overrides:
+  proxy-addr: ">=2.0.8"
+  "glob@>=9.0.0 <14.0.2": "^14.0.6"
