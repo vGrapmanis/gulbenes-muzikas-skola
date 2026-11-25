@@ -224,6 +224,7 @@ function EditForm({ item, onCancel }: { item: Achievement; onCancel: () => void 
           <span className="text-xs text-gray-500">(atstājiet tukšu, lai saglabātu esošo)</span>
         </label>
         {item.image_key && (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={mediaUrl(item.image_key)}
             alt={item.image_alt ?? ''}
@@ -301,6 +302,7 @@ function AchievementRow({ item }: { item: Achievement }) {
     <li className="rounded border border-gray-700 bg-gray-800/40">
       <div className="flex flex-wrap items-start gap-4 p-4">
         {item.image_key && (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={mediaUrl(item.image_key)}
             alt={item.image_alt ?? ''}

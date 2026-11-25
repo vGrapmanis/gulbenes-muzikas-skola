@@ -128,6 +128,7 @@ function AlbumCard({ album }: { album: GalleryAlbum }) {
       {/* Cover thumbnail */}
       <div className="relative aspect-video bg-gray-900">
         {album.cover_key ? (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={mediaUrl(album.cover_key)}
             alt=""

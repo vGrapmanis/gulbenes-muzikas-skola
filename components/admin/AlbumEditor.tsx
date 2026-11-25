@@ -257,6 +257,7 @@ function ImageCard({
       }`}
     >
       <div className="relative aspect-square bg-gray-900">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={mediaUrl(image.image_key)}
           alt={image.alt || ''}

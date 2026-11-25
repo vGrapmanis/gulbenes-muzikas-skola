@@ -1,19 +1,10 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Privātuma politika',
   description:
     'Informācija par to, kā Gulbenes Mūzikas skolas tīmekļvietne apstrādā personas datus un sīkdatnes.',
 };
-
-function Placeholder({ children }: { children: React.ReactNode }) {
-  return (
-    <mark className="bg-gray-200 text-ink px-1 py-0.5 font-medium not-italic">
-      {children}
-    </mark>
-  );
-}
 
 function Section({
   id,

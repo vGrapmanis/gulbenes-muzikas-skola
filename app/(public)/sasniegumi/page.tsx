@@ -31,6 +31,7 @@ function FeaturedCard({ item }: { item: AchievementRow }) {
       {item.image_key ? (
         <div className="relative shrink-0 overflow-hidden bg-gray-100 sm:w-[55%]">
           <div className="aspect-[4/3] sm:aspect-auto sm:h-full">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={mediaUrl(item.image_key)}
               alt={item.image_alt ?? ''}
@@ -74,6 +75,7 @@ function GridCard({ item }: { item: AchievementRow }) {
     >
       <div className="aspect-[4/3] overflow-hidden bg-gray-100">
         {item.image_key ? (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={mediaUrl(item.image_key)}
             alt={item.image_alt ?? ''}

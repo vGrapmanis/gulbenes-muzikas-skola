@@ -57,6 +57,7 @@ export default async function AchievementDetailPage({ params }: { params: Params
       <article>
         {item.image_key && (
           <div className="mb-8 overflow-hidden rounded-lg border border-gray-200 bg-gray-100">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={mediaUrl(item.image_key)}
               alt={item.image_alt ?? ''}

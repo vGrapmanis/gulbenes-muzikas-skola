@@ -181,6 +181,7 @@ function EditForm({ item, onCancel }: { item: NewsItem; onCancel: () => void }) 
           Plakāts — ekrānam (ainavas){' '}
           <span className="text-xs text-gray-500">(atstājiet tukšu, lai saglabātu esošo)</span>
         </label>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={mediaUrl(item.poster_key)}
           alt=""
@@ -200,6 +201,7 @@ function EditForm({ item, onCancel }: { item: NewsItem; onCancel: () => void }) 
           <span className="text-xs text-gray-500">(atstājiet tukšu, lai saglabātu esošo)</span>
         </label>
         {item.poster_portrait_key && (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={mediaUrl(item.poster_portrait_key)}
             alt=""
@@ -260,6 +262,7 @@ function NewsRow({ item }: { item: NewsItem }) {
   return (
     <li className="rounded border border-gray-700 bg-gray-800/40">
       <div className="flex flex-wrap items-start gap-4 p-4">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={mediaUrl(item.poster_key)}
           alt=""
