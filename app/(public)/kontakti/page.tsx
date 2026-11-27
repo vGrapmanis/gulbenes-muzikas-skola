@@ -46,7 +46,9 @@ export default function KontaktiPage() {
               <ContactRow label="Papildu telpas">
                 <address className="not-italic space-y-1">
                   <span className="block">Vidus iela 7, Gulbene</span>
-                  <span className="block">Ābeļu iela 2, Gulbene</span>
+                  <span className="block">Lizums, Gulbenes novads</span>
+                  <span className="block">Lejasciems, Gulbenes novads</span>
+                  <span className="block">Stāķi, Gulbenes novads</span>
                 </address>
               </ContactRow>
               <ContactRow label="Tālrunis">
