@@ -11,7 +11,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest",
     "preview": "opennextjs-cloudflare build && wrangler dev",
-    "deploy": "opennextjs-cloudflare build && wrangler deploy",
+    "deploy": "opennextjs-cloudflare build && wrangler deploy --env=\"\"",
+    "deploy:preview": "opennextjs-cloudflare build && wrangler deploy --env preview",
     "db:types": "supabase gen types typescript --project-id \"$SUPABASE_PROJECT_ID\" > lib/database.types.ts"
   },
   "dependencies": {

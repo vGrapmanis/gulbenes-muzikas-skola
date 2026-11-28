@@ -129,7 +129,8 @@ pnpm typecheck               # tsc --noEmit
 pnpm test                    # unit/component tests
 pnpm build                   # next build
 pnpm preview                 # opennextjs-cloudflare build + wrangler preview
-pnpm deploy                  # opennextjs-cloudflare build + wrangler deploy
+pnpm run deploy              # build + wrangler deploy (production)
+pnpm run deploy:preview      # build + wrangler deploy --env preview
 pnpm db:types                # regenerate Supabase TS types
 ```
 

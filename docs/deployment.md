@@ -44,13 +44,19 @@ Add scripts to `package.json`:
 ```json
 {
   "preview": "opennextjs-cloudflare build && wrangler dev",
-  "deploy":  "opennextjs-cloudflare build && wrangler deploy"
+  "deploy":  "opennextjs-cloudflare build && wrangler deploy --env=\"\"",
+  "deploy:preview": "opennextjs-cloudflare build && wrangler deploy --env preview"
 }
 ```
 Keep `build` as plain `next build`: `opennextjs-cloudflare build` calls
 `pnpm build` internally, so pointing `build` at it would recurse. Locally, run
 the deploy script as `pnpm run deploy` — bare `pnpm deploy` is a built-in pnpm
 command and does not run our script.
+
+`--env=""` explicitly targets the top-level (production) environment in
+`wrangler.jsonc` and silences Wrangler's "multiple environments" warning.
+`pnpm run deploy:preview` deploys the separate `preview` Worker
+(`gulbenes-muzikas-skola-preview`, R2 bucket `gms-media-dev`, no custom domains).
 
 ### 4. Cloudflare Workers Builds (dashboard)
 The Worker is connected to the Git repo and built by Cloudflare. In
