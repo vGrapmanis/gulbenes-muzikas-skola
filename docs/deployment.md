@@ -74,7 +74,7 @@ missing the site builds without a Supabase connection:
 | ------------------------------- | --------------------------------------- |
 | `NEXT_PUBLIC_SUPABASE_URL`      | Supabase Project URL                    |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase `anon` key (mark as secret)    |
-| `NEXT_PUBLIC_MEDIA_BASE_URL`    | `https://media.gulbenesms.lv`           |
+| `NEXT_PUBLIC_MEDIA_BASE_URL`    | `/api/media` (default if unset)         |
 
 The `R2_*` keys from `.env.example` are for local dev only; the deployed Worker
 uses the `MEDIA` R2 binding.
@@ -87,10 +87,15 @@ Wrangler — **never commit them**:
 wrangler secret put NEXT_PUBLIC_SUPABASE_URL
 wrangler secret put NEXT_PUBLIC_SUPABASE_ANON_KEY
 wrangler secret put SUPABASE_SERVICE_ROLE_KEY
-wrangler secret put NEXT_PUBLIC_MEDIA_BASE_URL
 ```
 (`NEXT_PUBLIC_*` values are also inlined at build time; keep build env and Worker
-secrets consistent.) The R2 binding means no R2 keys are needed in the Worker.
+secrets consistent.)
+
+> **`NEXT_PUBLIC_MEDIA_BASE_URL` is build-time only.** `pnpm deploy` builds locally
+> and reads `.env.local`, so whatever is there ends up in production. Never set it
+> to a `http://localhost…` URL — that broke all images on the live site once. Use
+> `/api/media` (same-origin R2 proxy, the default) or `https://media.gulbenesms.lv`
+> only if that R2 custom domain is actually attached. The R2 binding means no R2 keys are needed in the Worker.
 
 ## Build constraints
 
