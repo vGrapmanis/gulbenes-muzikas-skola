@@ -7,7 +7,6 @@ export const metadata: Metadata = { title: 'Vadības panelis' };
 type TableName = 'news' | 'achievements' | 'gallery_albums' | 'documents';
 
 const SECTIONS: { label: string; href: string; table?: TableName; description?: string }[] = [
-  { label: 'Lapu teksti',  href: '/admin/lapas',      description: 'Galvenā lapa, Vēsture, Uzņemšana, Kontakti' },
   { label: 'Jaunumi',      href: '/admin/jaunumi',     table: 'news'           },
   { label: 'Sasniegumi',   href: '/admin/sasniegumi',  table: 'achievements'   },
   { label: 'Galerija',     href: '/admin/galerija',    table: 'gallery_albums' },
