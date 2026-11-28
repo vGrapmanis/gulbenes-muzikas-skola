@@ -73,7 +73,7 @@ export default async function AlbumPage({
           <p className="mt-2 text-scale-sm text-gray-700">{formatDate(album.event_date)}</p>
         )}
         {album.description && (
-          <p className="mt-3 text-scale-base text-gray-700 leading-body max-w-2xl">
+          <p className="mt-3 text-scale-base text-gray-700 leading-body whitespace-pre-line break-words">
             {album.description}
           </p>
         )}
